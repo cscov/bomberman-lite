@@ -43,6 +43,8 @@ This app will consist of a single screen with the simulation canvas,
 user avatar and name, computer avatar, link to the github, and 'how to play' modal button.
 The user's avatar will be rendered in blue, while the computer avatar will be rendered in red.
 
+![board wireframe](https://github.com/cscov/bomberman-lite/blob/master/home.png)
+
 ## Architecture and Technologies
 This project will be implemented with the following technologies:
 
