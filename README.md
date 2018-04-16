@@ -66,7 +66,7 @@ In addition to the webpack entry file, there will be four scripts involved in th
 ### Day 1
 Setup all necessary Node modules, including getting webpack up and running. Create `webpack.config.js` as well as `package.json`. Write a basic entry file and the bare bones of all 4 scripts outlined above.
 Goals for the day:
-- [ ] Get webpack serving files and frame out index.html
+- [x] Get webpack serving files and frame out index.html
 - [ ] Create board rendering logic of randomly placed obstacles
 - [ ] Create 'how to play' modal
 
@@ -76,14 +76,14 @@ Goals for the day:
 - [ ] Get player logic done
 
 ### Day 3
-- [ ] Start item logic
+- [ ] Make sure the board, item, and player aesthetics are pleasing
+
+
+### Day 4
+- [ ]  item logic
   - [ ] roller skates
   - [ ] fireballs
   - [ ] extra bombs
-
-### Day 4
-- [ ] Finish item logic
-- [ ] Make sure the board, item, and player aesthetics are pleasing
 - [ ] If time, bonus features
 
 ## Bonus features

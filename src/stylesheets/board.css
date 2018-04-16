@@ -1,0 +1,78 @@
+body {
+  padding-top: 20px;
+}
+
+.top-nav {
+  width: 78%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+#how-to {
+  padding: 1em;
+  font-weight: bold;
+}
+
+h1 {
+  font-family: 'Black Han Sans', sans-serif;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.score-bar {
+  background-color: #FFB000;
+  width: 79%;
+  border-radius: 4px;
+  height: 4em;
+  position: absolute;
+  left: 148px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2em 0 2em;
+  box-sizing: border-box;
+}
+
+#player-avatar {
+  color: #3919FF;
+}
+
+#computer-avatar {
+  color: #FF0000;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  margin-left: 1em;
+  font-family: 'Black Han Sans', sans-serif;
+}
+
+.modal {
+
+  background-color: #fff;
+  width: 40em;
+  height: 20em;
+  position: fixed;
+  top: 2em;
+  left: 21em;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 1px 1px 5px black;
+  z-index: 5;
+}
+
+canvas {
+  background: forestgreen;
+  display: block;
+  margin: 0 auto;
+}
