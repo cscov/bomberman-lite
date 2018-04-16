@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bomberman Lite</title>
+    <link href="./src/stylesheets/reset.css" rel="stylsheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans" rel="stylesheet">
+    <link href="./src/stylesheets/board.scss" rel="stylsheet" type="text/css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./src/bundle.js"></script>
+    <style>
+    * { padding: 0; margin: 0; }
+    body { padding-top: 20px; }
+    .top-nav { width: 78%; display: flex; flex-direction: row;
+               justify-content: space-between; align-items: center;
+               margin: 0 auto; padding: 1em; }
+    #how-to {  padding: 1em; font-weight: bold; }
+    h1 { font-family: 'Black Han Sans', sans-serif; }
+    .score-bar { background-color: #FFB000; width: 78%;
+                 border-radius: 4px; height: 4em; position: absolute;
+                left: 155px; display: flex; justify-content: space-between; align-items: center;
+                padding: 0 2em 0 2em; box-sizing: border-box; }
+    #player-avatar { color: #3919FF; }
+    #computer-avatar { color: #FF0000; }
+    .player { display: flex; align-items: center; }
+    .name { margin-left: 1em; font-family: 'Black Han Sans',        sans-serif; }
+    canvas { background: forestgreen; display: block; margin: 0 auto; }
+    </style>
+  </head>
+  <body>
+    <section class="top-nav">
+      <button id="how-to">HOW TO PLAY</button>
+      <h1>Bomberman Lite</h1>
+      <a href="https://github.com/cscov/bomberman-lite"><i class="fab fa-github-square fa-2x"></i></a>
+    </section>
+    <section class="score-bar">
+      <section class="player">
+        <i id="player-avatar" class="fas fa-user fa-2x"></i>
+        <span class="name">Player 1</span>
+      </section>
+      <section class="player">
+        <i id="computer-avatar" class="fas fa-user fa-2x"></i>
+        <span class="name">Computer</span>
+      </section>
+    </section>
+    <canvas id="my-canvas" width="1100" height="600"></canvas>
+  </body>
+</html>
