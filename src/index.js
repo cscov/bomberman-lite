@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   howToButton.addEventListener("click", toggleModal, false);
   const closeButton = document.getElementById('close');
   closeButton.addEventListener("click", toggleModal, false);
+
+  const board = new Board(canvasEl, ctx, canvasEl.width/2, canvasEl.height-65);
+  board.draw();
 });
 
 function toggleModal() {
