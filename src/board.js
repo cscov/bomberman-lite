@@ -21,11 +21,11 @@ class Board {
       for (let r = 0; r < brickRowCount; r++) {
         if (c % 5 === 0) {
           bricks[c][r] = { x: 0, y: 0, status: 2 };
-          this.ctx.fillStyle = "#000";
+          this.ctx.fillStyle = "#F1F7ED";
         } else {
           let displayBrick = Math.floor(Math.random() * 2);
           bricks[c][r] = { x: 0, y: 0, status: displayBrick};
-          this.ctx.fillStyle = "#646164";
+          this.ctx.fillStyle = "#A4243B";
         }
         if (bricks[c][r].status === 2 || bricks[c][r].status === 1) {
           let brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;

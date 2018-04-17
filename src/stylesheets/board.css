@@ -26,7 +26,7 @@ h2 {
 }
 
 .score-bar {
-  background-color: #FFB000;
+  background-color: #FFCF56;
   width: 79%;
   border-radius: 4px;
   height: 4em;
@@ -40,11 +40,11 @@ h2 {
 }
 
 #player-avatar {
-  color: #3919FF;
+  color: #233D4D;
 }
 
 #computer-avatar {
-  color: #FF0000;
+  color: #FE7F2D;
 }
 
 .player {
@@ -107,7 +107,7 @@ p:last-of-type {
 }
 
 canvas {
-  background: forestgreen;
+  background: #86BAA1;
   display: block;
   margin: 0 auto;
 }
