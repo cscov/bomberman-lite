@@ -35,7 +35,7 @@ The computer player will be able to:
 
 ### Instructions
 In addition to gameplay, users will also be able to:
-- [ ] read instructions on gameplay through a modal
+- [x] read instructions on gameplay through a modal
 - [ ] click a 'start' button to start the game or reset it when the game is over
 
 ## Wireframes
@@ -48,9 +48,9 @@ The user's avatar will be rendered in blue, while the computer avatar will be re
 ## Architecture and Technologies
 This project will be implemented with the following technologies:
 
-- [ ] Vanilla JavaScript for overall structure and game logic,
-- [ ] HTML5 Canvas for DOM manipulation and rendering,
-- [ ] Webpack to bundle and serve up the various scripts.
+- [x] Vanilla JavaScript for overall structure and game logic,
+- [x] HTML5 Canvas for DOM manipulation and rendering,
+- [x] Webpack to bundle and serve up the various scripts.
 
 In addition to the webpack entry file, there will be four scripts involved in this project:
 - `player.js` that will hold the logic for how the player moves and places bombs
@@ -68,7 +68,7 @@ Setup all necessary Node modules, including getting webpack up and running. Crea
 Goals for the day:
 - [x] Get webpack serving files and frame out index.html
 - [ ] Create board rendering logic of randomly placed obstacles
-- [ ] Create 'how to play' modal
+- [x] Create 'how to play' modal
 
 ### Day 2
 - [ ] Get computer player logic done, as it will be easier to extrapolate single player logic from the computer

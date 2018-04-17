@@ -58,7 +58,6 @@ h2 {
 }
 
 .modal {
-
   background-color: #fff;
   width: 40em;
   height: 20em;
@@ -69,6 +68,42 @@ h2 {
   justify-content: space-between;
   box-shadow: 1px 1px 5px black;
   z-index: 5;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  visibility: hidden;
+}
+
+.modal .top-nav {
+  width: 95%;
+  align-items: flex-start;
+  height: fit-content;
+}
+
+#close {
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+p {
+  padding: 1em;
+}
+
+p:last-of-type {
+  line-height: 3em;
+}
+
+.arrows {
+  padding: 1em 0 1em 0;
+  border: 1px solid black;
+  margin-left: 1em;
+  width: 42%;
+  display: flex;
+  justify-content: space-around;
 }
 
 canvas {
