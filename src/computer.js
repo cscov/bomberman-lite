@@ -4,6 +4,7 @@ class Computer {
     this.canvas = canvas;
     this.img = img;
     this.startPosition = { x: canvas.width - 44, y: canvas.height - 44 };
+    this.status = 1;
   }
 
   drawPlayer() {
