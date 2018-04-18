@@ -1,9 +1,9 @@
 class Board {
-  constructor(canvas, ctx, x, y) {
-    this.ctx = ctx;
-    this.x = x;
-    this.y = y;
-    this.canvas = canvas;
+  constructor(options) {
+    this.ctx = options.ctx;
+    this.x = options.width;
+    this.y = options.height;
+    this.canvas = options.canvasEl;
     this.brickColumnCount = 25;
     this.brickRowCount = 12;
     this.brickWidth = 44;

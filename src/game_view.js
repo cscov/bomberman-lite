@@ -1,14 +1,17 @@
 class GameView {
-  constructor(game, ctx) {
+  constructor(game, canvasEl, ctx) {
     this.ctx = ctx;
     this.game = game;
+    this.canvasEl = canvasEl;
     this.computer = this.game.addComputer();
+    this.board = this.game.addBoard();
+    this.player = this.game.addPlayer();
   }
 
   bindComputerHandlers() {
     const computer = this.computer;
 
-    while (!this.computer.isComputerDead()) {
+    if (!this.computer.isComputerDead()) {
       Object.keys(GameView.MOVES).forEach( stepTaken => {
         const move = GameView.MOVES[stepTaken];
         this.computer.movePlayer(move);
@@ -20,15 +23,15 @@ class GameView {
   start() {
     this.bindComputerHandlers();
     this.lastTime = 0;
-    requestAnimationFrame(this.animate.bind(this.computer));
+    requestAnimationFrame(this.animate.bind(this));
   }
 
   animate(time) {
     const timeDelta = time - this.lastTime;
-    this.game.step(timeDelta);
+    this.computer.step(timeDelta);
     this.lastTime = time;
 
-    requestAnimationFrame(this.animate.bind(this.computer));
+    requestAnimationFrame(this.animate.bind(this));
   }
 }
 

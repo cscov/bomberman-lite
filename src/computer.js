@@ -1,18 +1,18 @@
 const MovingObject = require('./moving_objects');
 
 class Computer extends MovingObject {
-  constructor(ctx, canvas, img, board) {
-    this.ctx = ctx;
-    this.canvas = canvas;
-    this.img = img;
-    this.board = board;
-    this.startPosition = { x: canvas.width - 44, y: canvas.height - 44, status: 1 };
-    this.x = canvas.width - 44;
-    this.y = canvas.height - 44;
+  constructor(options) {
+    super(options);
+    options.velocity = options.velocity || [1, 0];
+    options.position = options.position;
+    this.ctx = options.ctx;
+    this.canvas = options.canvasEl;
+    this.img = options.img;
+    this.board = options.board;
+    this.position = { x: options.canvasEl.width - 44, y: options.canvasEl.height - 44};
+    this.startPosition = { x: options.canvasEl.width - 44, y: options.canvasEl.height - 44, status: 1 };
     this.dx = 2;
     this.dy = -2;
-
-    super({velocity: [1, 0], position: [this.x, this.y]});
   }
 
   drawPlayer() {

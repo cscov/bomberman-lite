@@ -1,8 +1,8 @@
 class Player {
-  constructor(ctx, canvas, img) {
-    this.ctx = ctx;
-    this. canvas = canvas;
-    this.img = img;
+  constructor(options) {
+    this.ctx = options.ctx;
+    this. canvas = options.canvas;
+    this.img = options.img;
     this.startPosition = { x: 0, y: 65 };
   }
 

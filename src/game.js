@@ -30,7 +30,7 @@ class Game {
     });
     this.add(board);
 
-    this.board.draw();
+    board.draw();
 
     return board;
   }
@@ -41,7 +41,9 @@ class Game {
       ctx: this.ctx,
       canvasEl: this.canvasEl,
       img: computerSprite,
-      board: this.board
+      board: this.board,
+      velocity: [0,0],
+
     });
 
     this.add(computer);

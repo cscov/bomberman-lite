@@ -1,6 +1,3 @@
-const Board = require("./board");
-const Computer = require("./computer");
-const Player = require("./player");
 const GameView = require("./game_view");
 const Game = require("./game");
 
@@ -14,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   closeButton.addEventListener("click", toggleModal, false);
 
   const game = new Game(canvasEl, ctx);
-  new GameView(game, ctx).start();
+  new GameView(game, canvasEl, ctx).start();
 });
 
 function toggleModal() {
