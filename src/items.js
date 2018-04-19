@@ -22,24 +22,29 @@ class Items {
   }
 
   detonate() {
-    window.setTimeout(this.drawExplosion.bind(this));
-    this.player.bombs.pop();
-    this.status = 0;
+    // this.drawExplosion = this.drawExplosion.bind(this);
+    this.status = 3;
   }
 
+
   drawExplosion() {
+    console.log("explosion starting");
+    this.ctx.beginPath();
+    this.ctx.arc(this.position.x, this.position.y, 20, 0, Math.PI*2);
+    this.ctx.fillStyle = "#233D4D";
+    this.ctx.fill();
+    this.ctx.closePath();
 
     this.ctx.beginPath();
     this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
-    this.ctx.fillStyle = "#f4a142";
+    this.ctx.fillStyle = "#64a7d1";
     this.ctx.fill();
     this.ctx.closePath();
 
-    this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, 7, 0, Math.PI*2);
-    this.ctx.fillStyle = "#f4e841";
-    this.ctx.fill();
-    this.ctx.closePath();
+    this.player.bombs.pop();
+    this.player.numBombs ++;
+
+    // this.status = 0;
   }
 }
 

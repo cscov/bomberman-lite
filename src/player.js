@@ -38,8 +38,10 @@ class Player {
     } else if (e.key === "b") {
       dx = 0;
       dy = 0;
-      this.placeBomb();
-      this.setBomb = true;
+      if (this.numBombs > 0) {
+        this.setBomb = true;
+        this.placeBomb();
+      }
     } else {
       dx = 0;
       dy = 0;
@@ -70,7 +72,7 @@ class Player {
     const bomb = new Item(this.ctx, this, 'bomb', "#233D4D", {x: this.currentPosition.x + 15, y: this.currentPosition.y - 15});
     this.bombs.push(bomb);
     bomb.drawItem();
-    window.setInterval(bomb.detonate.bind(bomb), 3000);
+    window.setTimeout(bomb.detonate.bind(bomb), 3000);
   }
 }
 
