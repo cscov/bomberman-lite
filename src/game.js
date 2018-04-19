@@ -35,6 +35,7 @@ class Game {
         }
       });
     }
+    this.collisionDetection();
     if (!this.gameOver()) {
       window.requestAnimationFrame(this.draw);
     }
@@ -50,6 +51,19 @@ class Game {
     }
 
     window.requestAnimationFrame(this.draw);
+  }
+
+  collisionDetection() {
+    const bricks = this.board.getBricks();
+    for (let c = 0; c < this.board.getColumnCount(); c++) {
+      for (let r = 0; r < this.board.getRowCount(); r++) {
+        let obj = bricks[c][r];
+        let objStatus = obj.status;
+        if (r !== 0) {
+          let objAbove = bricks[c][r - 1];
+        }
+      }
+    }
   }
 
   gameOver() {

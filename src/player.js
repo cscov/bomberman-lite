@@ -69,6 +69,7 @@ class Player {
   }
 
   placeBomb() {
+    this.numBombs --;
     const bomb = new Item(this.ctx, this, 'bomb', "#233D4D", {x: this.currentPosition.x + 15, y: this.currentPosition.y - 15});
     this.bombs.push(bomb);
     bomb.drawItem();

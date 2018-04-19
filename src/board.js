@@ -7,8 +7,8 @@ class Board {
   }
 
   initializeBricks() {
-    const brickColumnCount = 25;
-    const brickRowCount = 12;
+    this.brickColumnCount = 25;
+    this.brickRowCount = 12;
     const brickWidth = 44;
     const brickHeight = 44;
     const brickOffsetLeft = 44;
@@ -16,9 +16,9 @@ class Board {
     const brickPadding = 44;
 
     const bricks = [];
-    for (let c = 0; c < brickColumnCount; c++) {
+    for (let c = 0; c < this.brickColumnCount; c++) {
       bricks[c] = [];
-      for (let r = 0; r < brickRowCount; r++) {
+      for (let r = 0; r < this.brickRowCount; r++) {
         if (c % 5 === 0) {
           bricks[c][r] = { x: 0, y: 0, status: 2 };
           this.ctx.fillStyle = "#F1F7ED";
@@ -79,9 +79,20 @@ class Board {
     }
   }
 
-
   draw() {
     this.drawBricks();
+  }
+
+  getBricks() {
+    return this.bricks;
+  }
+
+  getColumnCount() {
+    return this.brickColumnCount;
+  }
+
+  getRowCount() {
+    return this.brickRowCount;
   }
 }
 

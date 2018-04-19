@@ -8,6 +8,7 @@ class Items {
     this.status = 1;
     this.color = color;
     this.position = {x: position.x, y: position.y};
+    this.blastRadius = 50;
 
   }
 
