@@ -20,8 +20,8 @@ body {
 #start {
   padding: 1em;
   font-weight: bold;
-  background-color: #233D4D;
-  margin-left: 1em;
+  font-size: 1.5em;
+  margin: 0 auto;
 }
 
 h1 {
@@ -30,6 +30,18 @@ h1 {
 
 h2 {
   font-size: 20px;
+}
+
+#game-start-cover {
+  width: 1137px;
+  height: 593px;
+  position: absolute;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.8);
+  left: 149px;
+  visibility: visible;
+  display: flex;
+  align-items: center;
 }
 
 .score-bar {

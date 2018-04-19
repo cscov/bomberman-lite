@@ -1,7 +1,7 @@
 const Item = require("./items");
 
 class Player {
-  constructor(ctx, canvas, img) {
+  constructor(ctx, canvas, img, game) {
     this.ctx = ctx;
     this.canvas = canvas;
     this.img = img;
@@ -9,6 +9,7 @@ class Player {
     this.status = 1;
     this.numBombs = 1;
     this.bombs = [];
+    this.game = game;
   }
 
   drawPlayer() {
@@ -17,6 +18,9 @@ class Player {
   }
 
   keyDownHandler(e) {
+    if (!this.game.started) {
+      return;
+    }
     let dx;
     let dy;
     if (e.key === "ArrowLeft") { // left arrow

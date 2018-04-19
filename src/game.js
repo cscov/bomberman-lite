@@ -34,6 +34,14 @@ class Game {
   }
 
   start() {
+    this.started = true;
+    const gameCover = document.getElementById('game-start-cover');
+    if (gameCover.style.visibility === 'hidden') {
+      gameCover.style.visibility = 'visible';
+    } else {
+      gameCover.style.visibility = 'hidden';
+    }
+
     window.requestAnimationFrame(this.draw);
   }
 

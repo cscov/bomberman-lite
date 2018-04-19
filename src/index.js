@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const board = new Board(canvasEl, ctx, canvasEl.width/2, canvasEl.height-65);
   board.initializeBricks();
 
+  // document.addEventListener("keyup", function (e) {
+  //   player.keyUpHandler(e);
+  // }, true);
+
   const computerSprite = new Image();
   const computer = new Computer(ctx, canvasEl, computerSprite);
   computerSprite.addEventListener("load", function() {
@@ -33,9 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", function (e) {
     player.keyDownHandler(e);
   }, true);
-  // document.addEventListener("keyup", function (e) {
-  //   player.keyUpHandler(e);
-  // }, true);
 
   const game = new Game(board, computer, player, canvasEl, ctx);
   const startButton = document.getElementById('start');
@@ -43,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     game.start.bind(this);
     game.start();
   }, false);
+
+  player.game = game;
 
 });
 
