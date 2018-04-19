@@ -1,14 +1,16 @@
 const Board = require("./board");
 const Computer = require("./computer");
 const Player = require("./player");
+const Item = require("./items");
 
 class Game {
-  constructor(board, computer, player, canvas, ctx) {
+  constructor(board, computer, player, canvas, ctx, item) {
     this.board = board;
     this.computer = computer;
     this.player = player;
     this.canvas = canvas;
     this.ctx = ctx;
+    this.item = item;
     this.draw = this.draw.bind(this);
   }
 
@@ -19,6 +21,9 @@ class Game {
     this.board.draw();
     this.computer.drawPlayer();
     this.player.drawPlayer();
+    if (this.player.setBomb) {
+      this.player.bombs.forEach( bomb => bomb.drawItem());
+    }
     if (!this.gameOver()) {
       window.requestAnimationFrame(this.draw);
     }

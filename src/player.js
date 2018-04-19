@@ -1,3 +1,5 @@
+const Item = require("./items");
+
 class Player {
   constructor(ctx, canvas, img) {
     this.ctx = ctx;
@@ -5,7 +7,8 @@ class Player {
     this.img = img;
     this.currentPosition = {x: 0, y: 65 };
     this.status = 1;
-
+    this.numBombs = 1;
+    this.bombs = [];
   }
 
   drawPlayer() {
@@ -17,23 +20,22 @@ class Player {
     let dx;
     let dy;
     if (e.key === "ArrowLeft") { // left arrow
-      console.log("clicked left arrow");
       dx = -44;
       dy = 0;
     } else if (e.key === "ArrowDown") { // down arrow
-      console.log("clicked down arrow");
       dx = 0;
       dy = 44;
     } else if (e.key === "ArrowUp") {
-      console.log("clicked up arrow");
       dx = 0;
       dy = -44;
     } else if (e.key === "ArrowRight") {
-      console.log("clicked right arrow");
       dx = 44;
       dy = 0;
     } else if (e.key === "b") {
-      console.log("bombs away!");
+      dx = 0;
+      dy = 0;
+      this.placeBomb();
+      this.setBomb = true;
     } else {
       dx = 0;
       dy = 0;
@@ -58,6 +60,12 @@ class Player {
     this.currentPosition.x += dx;
     this.currentPosition.y += dy;
     return this.drawPlayer();
+  }
+
+  placeBomb() {
+    const bomb = new Item(this.ctx, this, 'bomb');
+    this.bombs.push(bomb);
+    bomb.drawItem();
   }
 }
 
