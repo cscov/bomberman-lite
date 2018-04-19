@@ -18,6 +18,11 @@ class Items {
       this.ctx.closePath();
     }
   }
+
+  detonate() {
+    this.player.bombs.pop();
+    this.status = 0;
+  }
 }
 
 module.exports = Items;

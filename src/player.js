@@ -66,6 +66,7 @@ class Player {
     const bomb = new Item(this.ctx, this, 'bomb');
     this.bombs.push(bomb);
     bomb.drawItem();
+    window.setInterval(bomb.detonate.bind(bomb), 3000);
   }
 }
 

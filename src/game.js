@@ -22,7 +22,11 @@ class Game {
     this.computer.drawPlayer();
     this.player.drawPlayer();
     if (this.player.setBomb) {
-      this.player.bombs.forEach( bomb => bomb.drawItem());
+      this.player.bombs.forEach( bomb => {
+        if (bomb.status === 1) {
+          bomb.drawItem();
+        }
+      });
     }
     if (!this.gameOver()) {
       window.requestAnimationFrame(this.draw);
