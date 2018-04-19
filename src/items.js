@@ -1,19 +1,20 @@
 const Player = require("./player");
 
 class Items {
-  constructor(ctx, player, type, color) {
+  constructor(ctx, player, type, color, position) {
     this.ctx = ctx;
     this.player = player;
     this.type = type;
     this.status = 1;
     this.color = color;
+    this.position = {x: position.x, y: position.y};
 
   }
 
   drawItem() {
     if (this.type === 'bomb') {
       this.ctx.beginPath();
-      this.ctx.arc(this.player.currentPosition.x + 15, this.player.currentPosition.y - 44, 15, 0, Math.PI*2);
+      this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
       this.ctx.fillStyle = this.color;
       this.ctx.fill();
       this.ctx.closePath();
@@ -21,21 +22,24 @@ class Items {
   }
 
   detonate() {
+    window.setTimeout(this.drawExplosion.bind(this));
+    this.player.bombs.pop();
+    this.status = 0;
+  }
 
-    //explosion
+  drawExplosion() {
+
     this.ctx.beginPath();
-    this.ctx.arc(this.player.currentPosition.x + 15, this.player.currentPosition.y, 15, 0, Math.PI*2);
+    this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
     this.ctx.fillStyle = "#f4a142";
     this.ctx.fill();
     this.ctx.closePath();
 
     this.ctx.beginPath();
-    this.ctx.arc(this.player.currentPosition.x + 15, this.player.currentPosition.y, 7, 0, Math.PI*2);
+    this.ctx.arc(this.position.x, this.position.y, 7, 0, Math.PI*2);
     this.ctx.fillStyle = "#f4e841";
     this.ctx.fill();
     this.ctx.closePath();
-    this.player.bombs.pop();
-    this.status = 0;
   }
 }
 

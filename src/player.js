@@ -24,16 +24,16 @@ class Player {
     let dx;
     let dy;
     if (e.key === "ArrowLeft") { // left arrow
-      dx = -44;
+      dx = -22;
       dy = 0;
     } else if (e.key === "ArrowDown") { // down arrow
       dx = 0;
-      dy = 44;
+      dy = 22;
     } else if (e.key === "ArrowUp") {
       dx = 0;
-      dy = -44;
+      dy = -22;
     } else if (e.key === "ArrowRight") {
-      dx = 44;
+      dx = 22;
       dy = 0;
     } else if (e.key === "b") {
       dx = 0;
@@ -67,7 +67,7 @@ class Player {
   }
 
   placeBomb() {
-    const bomb = new Item(this.ctx, this, 'bomb', "#233D4D");
+    const bomb = new Item(this.ctx, this, 'bomb', "#233D4D", {x: this.currentPosition.x + 15, y: this.currentPosition.y - 15});
     this.bombs.push(bomb);
     bomb.drawItem();
     window.setInterval(bomb.detonate.bind(bomb), 3000);
