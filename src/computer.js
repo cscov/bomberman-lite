@@ -3,13 +3,13 @@ class Computer {
     this.ctx = ctx;
     this.canvas = canvas;
     this.img = img;
-    this.startPosition = { x: canvas.width - 44, y: canvas.height - 44 };
+    this.currentPosition = { x: canvas.width - 44, y: canvas.height - 44 };
     this.status = 1;
   }
 
   drawPlayer() {
-    this.ctx.drawImage(this.img, this.startPosition.x,
-                       this.startPosition.y, 44, 44);
+    this.ctx.drawImage(this.img, this.currentPosition.x,
+                       this.currentPosition.y, 44, 44);
   }
 }
 

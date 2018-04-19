@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   closeButton.addEventListener("click", toggleModal, false);
 
   const board = new Board(canvasEl, ctx, canvasEl.width/2, canvasEl.height-65);
-  board.draw();
+  board.initializeBricks();
 
   const computerSprite = new Image();
   const computer = new Computer(ctx, canvasEl, computerSprite);
@@ -25,16 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const playerSprite = new Image();
   const player = new Player(ctx, canvasEl, playerSprite);
   playerSprite.addEventListener("load", function () {
+    player.movePlayer.bind(player);
     player.drawPlayer();
   }, false);
   playerSprite.src = 'src/assets/navy_blue_player.svg';
 
-  document.addEventListener("keydown", player.keyDownHandler, false);
-  document.addEventListener("keyup", player.keyUpHandler, false);
+  document.addEventListener("keydown", function (e) {
+    player.keyDownHandler(e);
+  }, true);
+  // document.addEventListener("keyup", function (e) {
+  //   player.keyUpHandler(e);
+  // }, true);
 
-  const game = new Game(board, computer, player);
+  const game = new Game(board, computer, player, canvasEl, ctx);
   const startButton = document.getElementById('start');
-  startButton.addEventListener("click", game.start, false);
+  startButton.addEventListener("click", function () {
+    game.start.bind(this);
+    game.start();
+  }, false);
 
 });
 
