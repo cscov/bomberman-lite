@@ -152,11 +152,11 @@ module.exports = Player;
 /***/ (function(module, exports) {
 
 class Board {
-  constructor(options) {
-    this.ctx = options.ctx;
-    this.x = options.width;
-    this.y = options.height;
-    this.canvas = options.canvasEl;
+  constructor(canvasEl, ctx, width, height) {
+    this.ctx = ctx;
+    this.x = width;
+    this.y = height;
+    this.canvas = canvasEl;
     this.brickColumnCount = 25;
     this.brickRowCount = 12;
     this.brickWidth = 44;
@@ -422,25 +422,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   player.game = game;
 
-  const play = document.getElementsByClassName('play-again')[0]; // won
+  const play = document.getElementsByClassName('play-again')[0]; // lost
   play.addEventListener("click", function () {
-    const won = document.getElementById('won');
-    won.classList.remove('show');
-
-    game.start.bind(this);
-    game.start();
-  }, false);
-
-  const play2 = document.getElementsByClassName('play-again')[1]; // lost
-  play2.addEventListener("click", function () {
     const lost = document.getElementById('lost');
     lost.classList.remove('show');
+
     game.start.bind(this);
     game.start();
   }, false);
 
-  const game = new Game(canvasEl, ctx);
-  new GameView(game, canvasEl, ctx).start();
+  const play2 = document.getElementsByClassName('play-again')[1]; // won
+  play2.addEventListener("click", function () {
+    const won = document.getElementById('won');
+    won.classList.remove('show');
+    game.start.bind(this);
+    game.start();
+  }, false);
+
 });
 
 function toggleModal() {
@@ -511,18 +509,14 @@ class Game {
 
   start() {
     this.started = true;
+    this.player.status = 1;
+    this.computer.status = 1;
     const gameCover = document.getElementById('game-start-cover');
-    const won = document.getElementById('won');
-    won.style.visibility = 'hidden';
-    const lost = document.getElementById('lost');
-    lost.style.visibility = 'hidden';
-
     if (gameCover.style.visibility === 'hidden') {
       gameCover.style.visibility = 'visible';
     } else {
       gameCover.style.visibility = 'hidden';
     }
-
     window.requestAnimationFrame(this.draw);
   }
 
@@ -550,10 +544,10 @@ class Game {
   displayEndMessage() {
     if (this.player.status === 0) {
       const modal = document.getElementById('lost');
-      modal.style.visibility = 'visible';
+      modal.classList.add('show');
     } else {
       const modal = document.getElementById('won');
-      modal.style.visibility = 'visible';
+      modal.classList.add('show');
     }
   }
 }

@@ -52,18 +52,14 @@ class Game {
 
   start() {
     this.started = true;
+    this.player.status = 1;
+    this.computer.status = 1;
     const gameCover = document.getElementById('game-start-cover');
-    const won = document.getElementById('won');
-    won.style.visibility = 'hidden';
-    const lost = document.getElementById('lost');
-    lost.style.visibility = 'hidden';
-
     if (gameCover.style.visibility === 'hidden') {
       gameCover.style.visibility = 'visible';
     } else {
       gameCover.style.visibility = 'hidden';
     }
-
     window.requestAnimationFrame(this.draw);
   }
 
@@ -91,10 +87,10 @@ class Game {
   displayEndMessage() {
     if (this.player.status === 0) {
       const modal = document.getElementById('lost');
-      modal.style.visibility = 'visible';
+      modal.classList.add('show');
     } else {
       const modal = document.getElementById('won');
-      modal.style.visibility = 'visible';
+      modal.classList.add('show');
     }
   }
 }
