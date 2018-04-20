@@ -1,3 +1,4 @@
+
 class Computer {
   constructor(ctx, canvas, img) {
     this.ctx = ctx;
@@ -7,7 +8,6 @@ class Computer {
     this.status = 1;
     this.numBombs = 1;
   }
-
   drawPlayer() {
     this.ctx.drawImage(this.img, this.position.x,
                        this.position.y, 44, 44);

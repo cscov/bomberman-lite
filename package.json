@@ -11,7 +11,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "postinstall": "webpack",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

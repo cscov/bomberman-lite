@@ -1,6 +1,7 @@
 const Board = require("./board");
 const Computer = require("./computer");
 const Player = require("./player");
+
 const Bomb = require("./bomb");
 
 class Game {

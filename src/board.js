@@ -1,9 +1,13 @@
 class Board {
-  constructor(canvas, ctx, x, y) {
-    this.ctx = ctx;
-    this.x = x;
-    this.y = y;
-    this.canvas = canvas;
+  constructor(options) {
+    this.ctx = options.ctx;
+    this.x = options.width;
+    this.y = options.height;
+    this.canvas = options.canvasEl;
+    this.brickColumnCount = 25;
+    this.brickRowCount = 12;
+    this.brickWidth = 44;
+    this.brickHeight = 44;
   }
 
   initializeBricks() {
@@ -44,18 +48,14 @@ class Board {
   }
 
   drawBricks() {
-    const brickColumnCount = 25;
-    const brickRowCount = 12;
-    const brickWidth = 44;
-    const brickHeight = 44;
     const brickOffsetLeft = 44;
     const brickOffsetTop = 65;
     const brickPadding = 44;
 
     const bricks = [];
-    for (let c = 0; c < brickColumnCount; c++) {
+    for (let c = 0; c < this.brickColumnCount; c++) {
       bricks[c] = [];
-      for (let r = 0; r < brickRowCount; r++) {
+      for (let r = 0; r < this.brickRowCount; r++) {
         if (c % 5 === 0) {
           bricks[c][r] = { x: 0, y: 0, status: 2 };
           this.ctx.fillStyle = "#F1F7ED";
@@ -65,18 +65,34 @@ class Board {
           this.ctx.fillStyle = "#A4243B";
         }
         if (bricks[c][r].status === 2 || bricks[c][r].status === 1) {
-          let brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-          let brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+          let brickX = (c * (this.brickWidth + brickPadding)) + brickOffsetLeft;
+          let brickY = (r * (this.brickHeight + brickPadding)) + brickOffsetTop;
           bricks[c][r].x = brickX;
           bricks[c][r].y = brickY;
 
           this.ctx.beginPath();
-          this.ctx.rect(brickX, brickY, brickWidth, brickHeight);
+          this.ctx.rect(brickX, brickY, this.brickWidth, this.brickHeight);
           this.ctx.fill();
           this.ctx.closePath();
         }
       }
     }
+  }
+
+  getBrickColumnCount(){
+    return this.brickColumnCount;
+  }
+
+  getBrickRowCount() {
+    return this.brickRowCount;
+  }
+
+  getBrickWidth() {
+    return this.brickWidth;
+  }
+
+  getBrickHeight() {
+    return this.brickHeight;
   }
 
   draw() {
