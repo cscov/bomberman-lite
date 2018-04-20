@@ -2,81 +2,100 @@ const Board = require("./board");
 const Computer = require("./computer");
 const Player = require("./player");
 
+const Bomb = require("./bomb");
+
 class Game {
-  constructor(canvasEl, ctx) {
-    this.canvasEl = canvasEl;
+  constructor(board, computer, player, canvas, ctx, item) {
+    this.board = board;
+    this.computer = computer;
+    this.player = player;
+    this.canvas = canvas;
     this.ctx = ctx;
-    this.board = [];
-    this.computer = [];
-    this.player = [];
-  }
-
-  add(obj) {
-    if (obj instanceof Board) {
-      this.board.push(obj);
-    } else if (obj instanceof Computer) {
-      this.computer.push(obj);
-    } else if (obj instanceof Player) {
-      this.player.push(obj);
-    }
-  }
-
-  addBoard() {
-    const board = new Board({
-      canvasEl: this.canvasEl,
-      ctx: this.ctx,
-      width: this.canvasEl.width,
-      height: this.canvasEl.height-65
-    });
-    this.add(board);
-
-    board.draw();
-
-    return board;
-  }
-
-  addComputer() {
-    const computerSprite = new Image();
-    const computer = new Computer({
-      ctx: this.ctx,
-      canvasEl: this.canvasEl,
-      img: computerSprite,
-      board: this.board,
-      velocity: [0,0],
-
-    });
-
-    this.add(computer);
-
-    computerSprite.addEventListener("load", function() {
-      computer.drawPlayer();
-    }, false);
-    computerSprite.src = 'src/assets/orange_player.svg';
-
-    return computer;
-  }
-
-  addPlayer() {
-    const playerSprite = new Image();
-    const player = new Player({
-      ctx: this.ctx,
-      canvasEl: this.canvasEl,
-      img: playerSprite,
-      board: this.board
-    });
-
-    this.add(player);
-
-    playerSprite.addEventListener("load", function() {
-      player.drawPlayer();
-    }, false);
-    playerSprite.src = 'src/assets/navy_blue_player.svg';
-
-    return player;
+    this.items = [];
+    this.bombs = this.player.bombs;
+    this.avatars = [this.player, this.computer];
+    this.draw = this.draw.bind(this);
   }
 
   allObjects() {
-    return [].concat(this.board, this.computer, this.player);
+    return [].concat(this.items, this.bombs, this.avatars, this.board.getBricks());
+  }
+
+  draw(timestamp) {
+    let start = timestamp;
+    let progress = timestamp - start;
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.board.draw();
+    this.computer.drawPlayer();
+    this.player.drawPlayer();
+    if (this.player.setBomb) {
+      this.player.bombs.forEach( bomb => {
+        if (bomb.status === 1) {
+          bomb.drawItem();
+          window.setTimeout(bomb.detonate.bind(bomb), 3000);
+          bomb.status = 2;
+        } else if (bomb.status === 2) {
+          bomb.drawItem();
+        } else if (bomb.status === 3) {
+          bomb.drawExplosion();
+          this.collisionDetection();
+
+        }
+      });
+    }
+    if (!this.gameOver()) {
+      window.requestAnimationFrame(this.draw);
+    } else {
+      this.displayEndMessage();
+    }
+  }
+
+  start() {
+    this.started = true;
+    const gameCover = document.getElementById('game-start-cover');
+    const won = document.getElementById('won');
+    won.style.visibility = 'hidden';
+    const lost = document.getElementById('lost');
+    lost.style.visibility = 'hidden';
+
+    if (gameCover.style.visibility === 'hidden') {
+      gameCover.style.visibility = 'visible';
+    } else {
+      gameCover.style.visibility = 'hidden';
+    }
+
+    window.requestAnimationFrame(this.draw);
+  }
+
+  collisionDetection() {
+    const allObjects = this.allObjects().filter( obj => obj.status > 0);
+    for (let i = 0; i < allObjects.length; i++) {
+      for (let j = i + 1; j < allObjects.length; j++) {
+        const obj1 = allObjects[i];
+        const obj2 = allObjects[j];
+        if (obj1 instanceof Bomb && obj1.isCollidedWith(obj2)) {
+          obj2.status = 0;
+        } else if (obj2 instanceof Bomb && obj1.isCollidedWith(obj2)) {
+          obj1.status = 0;
+        } else {
+          return;
+        }
+      }
+    }
+  }
+
+  gameOver() {
+    return this.player.status === 0 || this.computer.status === 0;
+  }
+
+  displayEndMessage() {
+    if (this.player.status === 0) {
+      const modal = document.getElementById('lost');
+      modal.style.visibility = 'visible';
+    } else {
+      const modal = document.getElementById('won');
+      modal.style.visibility = 'visible';
+    }
   }
 }
 
