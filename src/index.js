@@ -15,9 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const board = new Board(canvasEl, ctx, canvasEl.width/2, canvasEl.height-65);
   board.initializeBricks();
 
-  // document.addEventListener("keyup", function (e) {
-  //   player.keyUpHandler(e);
-  // }, true);
+
 
   const computerSprite = new Image();
   const computer = new Computer(ctx, canvasEl, computerSprite);
@@ -46,6 +44,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }, false);
 
   player.game = game;
+
+  const play = document.getElementsByClassName('play-again')[0]; // won
+  play.addEventListener("click", function () {
+    const won = document.getElementById('won');
+    won.classList.remove('show');
+
+    game.start.bind(this);
+    game.start();
+  }, false);
+
+  const play2 = document.getElementsByClassName('play-again')[1]; // lost
+  play2.addEventListener("click", function () {
+    const lost = document.getElementById('lost');
+    lost.classList.remove('show');
+    game.start.bind(this);
+    game.start();
+  }, false);
 
 });
 
