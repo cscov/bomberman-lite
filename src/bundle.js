@@ -286,7 +286,7 @@ class Computer {
   drawPlayer() {
     this.ctx.drawImage(this.img, this.position.x,
                        this.position.y, 44, 44);
-    window.setInterval(this.movePlayer.bind(this), 1000);
+    // window.setInterval(this.movePlayer.bind(this), 5000);
   }
 
   movePlayer() {
@@ -309,7 +309,7 @@ class Computer {
     this.position.x += dx;
     this.position.y += dy;
     this.placeBomb();
-    
+
     return this.drawPlayer();
   }
 
