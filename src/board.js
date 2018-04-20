@@ -10,7 +10,11 @@ class Board {
     this.brickHeight = 44;
   }
 
-  drawBricks() {
+  initializeBricks() {
+    this.brickColumnCount = 25;
+    this.brickRowCount = 12;
+    const brickWidth = 44;
+    const brickHeight = 44;
     const brickOffsetLeft = 44;
     const brickOffsetTop = 65;
     const brickPadding = 44;
@@ -24,6 +28,39 @@ class Board {
           this.ctx.fillStyle = "#F1F7ED";
         } else {
           let displayBrick = Math.floor(Math.random() * 2);
+          bricks[c][r] = { x: 0, y: 0, status: displayBrick};
+          this.ctx.fillStyle = "#A4243B";
+        }
+        if (bricks[c][r].status === 2 || bricks[c][r].status === 1) {
+          let brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+          let brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+          bricks[c][r].x = brickX;
+          bricks[c][r].y = brickY;
+
+          this.ctx.beginPath();
+          this.ctx.rect(brickX, brickY, brickWidth, brickHeight);
+          this.ctx.fill();
+          this.ctx.closePath();
+        }
+      }
+    }
+    this.bricks = bricks;
+  }
+
+  drawBricks() {
+    const brickOffsetLeft = 44;
+    const brickOffsetTop = 65;
+    const brickPadding = 44;
+
+    const bricks = [];
+    for (let c = 0; c < this.brickColumnCount; c++) {
+      bricks[c] = [];
+      for (let r = 0; r < this.brickRowCount; r++) {
+        if (c % 5 === 0) {
+          bricks[c][r] = { x: 0, y: 0, status: 2 };
+          this.ctx.fillStyle = "#F1F7ED";
+        } else {
+          let displayBrick = this.bricks[c][r].status;
           bricks[c][r] = { x: 0, y: 0, status: displayBrick};
           this.ctx.fillStyle = "#A4243B";
         }
@@ -58,10 +95,20 @@ class Board {
     return this.brickHeight;
   }
 
-
   draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawBricks();
+  }
+
+  getBricks() {
+    return this.bricks;
+  }
+
+  getColumnCount() {
+    return this.brickColumnCount;
+  }
+
+  getRowCount() {
+    return this.brickRowCount;
   }
 }
 
