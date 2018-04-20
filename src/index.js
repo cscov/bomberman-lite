@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, false);
 
   player.game = game;
+  computer.game = game;
 
   const play = document.getElementsByClassName('play-again')[0]; // lost
   play.addEventListener("click", function () {

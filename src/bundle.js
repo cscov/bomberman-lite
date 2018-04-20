@@ -78,7 +78,6 @@ class Player {
     this.position = {x: 0, y: 65 };
     this.status = 1;
     this.numBombs = 1;
-    this.bombs = [];
     this.game = game;
     this.width = 44;
     this.height = 44;
@@ -137,8 +136,8 @@ class Player {
 
   placeBomb() {
     this.numBombs -= 1;
-    const bomb = new Bomb(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y});
-    this.bombs.push(bomb);
+    const bomb = new Bomb(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y}, this.game);
+    this.game.bombs.push(bomb);
     bomb.drawItem();
     window.setTimeout(bomb.detonate.bind(bomb), 3000);
   }
@@ -270,23 +269,68 @@ module.exports = Board;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+const Bomb = __webpack_require__(3);
 
 class Computer {
-  constructor(ctx, canvas, img) {
+  constructor(ctx, canvas, img, game) {
     this.ctx = ctx;
     this.canvas = canvas;
     this.img = img;
     this.position = { x: canvas.width - 44, y: canvas.height - 44 };
     this.status = 1;
     this.numBombs = 1;
+    this.game = game;
   }
   drawPlayer() {
     this.ctx.drawImage(this.img, this.position.x,
                        this.position.y, 44, 44);
+    window.setInterval(this.movePlayer.bind(this), 1000);
+  }
+
+  movePlayer() {
+    if (!this.game.started) {
+      return;
+    }
+    let randomMove = Math.floor(Math.random() * 4);
+    let move = MOVES[randomMove];
+    let dx = move[0];
+    let dy = move[1];
+
+    if (this.position.x + dx < 0 || this.position.x + dx >= this.canvas.width
+    || this.position.x + this.width >= this.canvas.width) {
+      dx = 0;
+    }
+    if (this.position.y + dy < 65 || this.position.y + dy >= this.canvas.height
+    || this.position.y + this.height >= this.canvas.height) {
+      dy = 0;
+    }
+    this.position.x += dx;
+    this.position.y += dy;
+    this.placeBomb();
+    
+    return this.drawPlayer();
+  }
+
+  placeBomb() {
+    if (this.numBombs === 0) {
+      return;
+    }
+    this.numBombs -= 1;
+    const bomb = new Bomb(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y}, this.game);
+    this.game.bombs.push(bomb);
+    bomb.drawItem();
+    window.setTimeout(bomb.detonate.bind(bomb), 3000);
   }
 }
+
+const MOVES = [
+  [22, 0],
+  [-22, 0],
+  [0, 22],
+  [0, -22]
+];
 
 module.exports = Computer;
 
@@ -298,7 +342,7 @@ module.exports = Computer;
 const Player = __webpack_require__(0);
 
 class Bomb {
-  constructor(ctx, player, type, color, position) {
+  constructor(ctx, player, type, color, position, game) {
     this.ctx = ctx;
     this.player = player;
     this.type = type;
@@ -306,7 +350,7 @@ class Bomb {
     this.color = color;
     this.position = {x: position.x, y: position.y};
     this.blastRadius = 50;
-
+    this.game = game;
   }
 
   drawItem() {
@@ -358,11 +402,11 @@ class Bomb {
     this.ctx.fill();
     this.ctx.closePath();
 
-    this.player.bombs.pop();
     this.player.numBombs += 1;
     this.player.setBomb = false;
-    this.player.bombs.push(new Bomb(this.ctx, this, 'bomb', "#233D4D",
-    {x: this.position.x + 15, y: this.position.y}));
+
+    this.game.remove(this);
+
   }
 }
 
@@ -421,6 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, false);
 
   player.game = game;
+  computer.game = game;
 
   const play = document.getElementsByClassName('play-again')[0]; // lost
   play.addEventListener("click", function () {
@@ -469,7 +514,7 @@ class Game {
     this.canvas = canvas;
     this.ctx = ctx;
     this.items = [];
-    this.bombs = this.player.bombs;
+    this.bombs = [];
     this.avatars = [this.player, this.computer];
     this.draw = this.draw.bind(this);
   }
@@ -486,7 +531,7 @@ class Game {
     this.computer.drawPlayer();
     this.player.drawPlayer();
     if (this.player.setBomb) {
-      this.player.bombs.forEach( bomb => {
+      this.bombs.forEach( bomb => {
         if (bomb.status === 1) {
           bomb.drawItem();
           window.setTimeout(bomb.detonate.bind(bomb), 3000);
@@ -534,6 +579,14 @@ class Game {
           return;
         }
       }
+    }
+  }
+
+  remove(obj) {
+    if (obj instanceof Bomb) {
+      this.bombs.splice(this.bombs.indexOf(obj), 1);
+    } else if (obj instanceof Board) {
+      this.board.getBricks().splice(this.board.getBricks().indexOf(obj), 1);
     }
   }
 

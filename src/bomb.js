@@ -1,7 +1,7 @@
 const Player = require("./player");
 
 class Bomb {
-  constructor(ctx, player, type, color, position) {
+  constructor(ctx, player, type, color, position, game) {
     this.ctx = ctx;
     this.player = player;
     this.type = type;
@@ -9,7 +9,7 @@ class Bomb {
     this.color = color;
     this.position = {x: position.x, y: position.y};
     this.blastRadius = 50;
-
+    this.game = game;
   }
 
   drawItem() {
@@ -61,11 +61,11 @@ class Bomb {
     this.ctx.fill();
     this.ctx.closePath();
 
-    this.player.bombs.pop();
     this.player.numBombs += 1;
     this.player.setBomb = false;
-    this.player.bombs.push(new Bomb(this.ctx, this, 'bomb', "#233D4D",
-    {x: this.position.x + 15, y: this.position.y}));
+
+    this.game.remove(this);
+
   }
 }
 

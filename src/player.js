@@ -9,7 +9,6 @@ class Player {
     this.position = {x: 0, y: 65 };
     this.status = 1;
     this.numBombs = 1;
-    this.bombs = [];
     this.game = game;
     this.width = 44;
     this.height = 44;
@@ -68,8 +67,8 @@ class Player {
 
   placeBomb() {
     this.numBombs -= 1;
-    const bomb = new Bomb(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y});
-    this.bombs.push(bomb);
+    const bomb = new Bomb(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y}, this.game);
+    this.game.bombs.push(bomb);
     bomb.drawItem();
     window.setTimeout(bomb.detonate.bind(bomb), 3000);
   }

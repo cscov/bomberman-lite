@@ -12,7 +12,7 @@ class Game {
     this.canvas = canvas;
     this.ctx = ctx;
     this.items = [];
-    this.bombs = this.player.bombs;
+    this.bombs = [];
     this.avatars = [this.player, this.computer];
     this.draw = this.draw.bind(this);
   }
@@ -29,7 +29,7 @@ class Game {
     this.computer.drawPlayer();
     this.player.drawPlayer();
     if (this.player.setBomb) {
-      this.player.bombs.forEach( bomb => {
+      this.bombs.forEach( bomb => {
         if (bomb.status === 1) {
           bomb.drawItem();
           window.setTimeout(bomb.detonate.bind(bomb), 3000);
@@ -77,6 +77,14 @@ class Game {
           return;
         }
       }
+    }
+  }
+
+  remove(obj) {
+    if (obj instanceof Bomb) {
+      this.bombs.splice(this.bombs.indexOf(obj), 1);
+    } else if (obj instanceof Board) {
+      this.board.getBricks().splice(this.board.getBricks().indexOf(obj), 1);
     }
   }
 
