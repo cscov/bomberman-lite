@@ -8,86 +8,87 @@ In this game, the objective is to blow up your opponent. You start out on opposi
 
 Players only have one life and start out with being able to place a single bomb. They must wait for that bomb to detonate before they are able to place another bomb. As the bombs detonate after a certain number of seconds and have a certain blast radius, players must be careful not to stand too close to their own bombs when they detonate.
 
-Through blowing up obstacles, players can also discover power-up items, such as the ability to run faster, place more bombs at once, or have a larger blast radius.
 
 ## Functionality and MVPs
 ### User Features
 In Bomberman Lite, users will be able to:
-- [ ] enter their name for the scoreboard
-- [ ] start out placing a single bomb
-- [ ] use bombs to blow up obstacles
-- [ ] use bombs to hit the computer opponent
-- [ ] discover  the following randomly placed power-up items:
-  - [ ] skates that increase the speed at which a player is able to move
-  - [ ] fireballs that increase their blast radius
-  - [ ] bomb icons that increase the number of bombs they can place at a time
+- [x] start out placing a single bomb
+- [x] use bombs to blow up obstacles
+- [x] use bombs to hit the computer opponent
 
 
 ### Gameplay
-When the game starts, the board is set with obstacles and items randomly placed. The game is over when one player is killed by another. When the game resets, the placement of obstacles and items also resets.
+When the game starts, the board is set with obstacles and items randomly placed. The game is over when one player is killed by another. When the game resets, the placement of obstacles also resets.
 
 ### Computer AI
 The computer player will be able to:
-- [ ] move about in a random pattern
-- [ ] use power-up items
-- [ ] detect bombs and move away from them when possible
-- [ ] place bombs
+- [x] move about in a random pattern
+- [x] detect bombs and move away from them when possible
+- [x] place bombs
 
 ### Instructions
 In addition to gameplay, users will also be able to:
 - [x] read instructions on gameplay through a modal
-- [ ] click a 'start' button to start the game or reset it when the game is over
+- [x] click a 'start' button to start the game or reset it when the game is over
 
 ## Wireframes
-This app will consist of a single screen with the simulation canvas,
+This app consists of a single screen with the simulation canvas,
 user avatar and name, computer avatar, link to the github, and 'how to play' modal button.
-The user's avatar will be rendered in blue, while the computer avatar will be rendered in red.
 
 ![board wireframe](https://github.com/cscov/bomberman-lite/blob/master/images/home.png)
 
 ## Architecture and Technologies
-This project will be implemented with the following technologies:
+This project was implemented with the following technologies:
 
 - [x] Vanilla JavaScript for overall structure and game logic,
 - [x] HTML5 Canvas for DOM manipulation and rendering,
 - [x] Webpack to bundle and serve up the various scripts.
 
-In addition to the webpack entry file, there will be four scripts involved in this project:
+In addition to the webpack entry file(`index.js`), there are be five scripts involved in this project:
 - `player.js` that will hold the logic for how the player moves and places bombs
 - `computer.js` that will hold the logic for how the computer moves and places bombs
-- `items.js` that will hold the logic for the power-up items and bombs
+- `bomb.js` that will hold the logic for the power-up items and bombs
 - `board.js` that will hold the logic for the board rendering and game-over scenario
+- `game.js` that holds the logic for starting and ending the game, collision detection, and rendering each object on the screen
 
-## Implementation Timeline
-### Over the weekend
-- [x] Completed MDN Breakout game tutorial
-- [x] started to set up webpack and entry file
+## Feature of Note
+### Randomly Generated Levels
+Each time the player starts a new game, the pattern of obstacles in the game randomly generates, allowing for endless returns to the game. In order to implement this feature, I generated obstacles through conditional logic.
 
-### Day 1
-Setup all necessary Node modules, including getting webpack up and running. Create `webpack.config.js` as well as `package.json`. Write a basic entry file and the bare bones of all 4 scripts outlined above.
-Goals for the day:
-- [x] Get webpack serving files and frame out index.html
-- [ ] Create board rendering logic of randomly placed obstacles
-- [x] Create 'how to play' modal
+```js
 
-### Day 2
-- [ ] Get computer player logic done, as it will be easier to extrapolate single player logic from the computer
-- [ ] Get bomb logic done
-- [ ] Get player logic done
+const bricks = [];
+    for (let c = 0; c < this.brickColumnCount; c++) {
+      bricks[c] = [];
+      for (let r = 0; r < this.brickRowCount; r++) {
+        if (c % 5 === 0) {
+          bricks[c][r] = { x: 0, y: 0, status: 2 };
+          this.ctx.fillStyle = "#F1F7ED";
+        } else {
+          let displayBrick = Math.floor(Math.random() * 2);
+          bricks[c][r] = { x: 0, y: 0, status: displayBrick};
+          this.ctx.fillStyle = "#A4243B";
+        }
+        if (bricks[c][r].status === 2 || bricks[c][r].status === 1) {
+          let brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+          let brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+          bricks[c][r].x = brickX;
+          bricks[c][r].y = brickY;
 
-### Day 3
-- [ ] Make sure the board, item, and player aesthetics are pleasing
+          this.ctx.beginPath();
+          this.ctx.rect(brickX, brickY, brickWidth, brickHeight);
+          this.ctx.fill();
+          this.ctx.closePath();
+          ```
 
+ ![screenshot](https://github.com/cscov/bomberman-lite/blob/master/images/bomberman_lite_screenshot.png)
 
-### Day 4
-- [ ]  item logic
-  - [ ] roller skates
-  - [ ] fireballs
-  - [ ] extra bombs
-- [ ] If time, bonus features
-
-## Bonus features
-- [ ] gloves for throwing bombs
+## Future Directions
+- [ ] Power-up items
+  - [ ] fireballs that increase your blast radius
+  - [ ] roller skates that increase your speed
+  - [ ] the ability to place more than one bomb at a time
+  - [ ] gloves for throwing bombs
 - [ ] A timer feature that starts placing obstacles back on the board after a certain amount of time has passed, until one of the players kills the other or is crushed by an obstacle
 - [ ] sound effects for bomb detonation and item grabbing
 - [ ] best 2 out of three scoring system
