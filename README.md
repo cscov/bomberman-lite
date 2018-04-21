@@ -55,9 +55,8 @@ In addition to the webpack entry file(`index.js`), there are be five scripts inv
 ### Randomly Generated Levels
 Each time the player starts a new game, the pattern of obstacles in the game randomly generates, allowing for endless returns to the game. In order to implement this feature, I generated obstacles through conditional logic.
 
-```js
-
-const bricks = [];
+```
+{const bricks = [];
     for (let c = 0; c < this.brickColumnCount; c++) {
       bricks[c] = [];
       for (let r = 0; r < this.brickRowCount; r++) {
@@ -78,17 +77,16 @@ const bricks = [];
           this.ctx.beginPath();
           this.ctx.rect(brickX, brickY, brickWidth, brickHeight);
           this.ctx.fill();
-          this.ctx.closePath();
-          ```
-
- ![screenshot](https://github.com/cscov/bomberman-lite/blob/master/images/bomberman_lite_screenshot.png)
+          this.ctx.closePath();}
+```
+![screenshot](https://github.com/cscov/bomberman-lite/blob/master/images/bomberman_lite_screenshot.png)
 
 ## Future Directions
 - [ ] Power-up items
-  - [ ] fireballs that increase your blast radius
-  - [ ] roller skates that increase your speed
-  - [ ] the ability to place more than one bomb at a time
-  - [ ] gloves for throwing bombs
+ - [ ] fireballs that increase your blast radius
+ - [ ] roller skates that increase your speed
+ - [ ] the ability to place more than one bomb at a time
+ - [ ] gloves for throwing bombs
 - [ ] A timer feature that starts placing obstacles back on the board after a certain amount of time has passed, until one of the players kills the other or is crushed by an obstacle
 - [ ] sound effects for bomb detonation and item grabbing
 - [ ] best 2 out of three scoring system
