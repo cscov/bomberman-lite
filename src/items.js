@@ -22,7 +22,6 @@ class Items {
   }
 
   detonate() {
-    // this.drawExplosion = this.drawExplosion.bind(this);
     this.status = 3;
   }
 
@@ -44,7 +43,6 @@ class Items {
     this.player.bombs.pop();
     this.player.numBombs ++;
 
-    // this.status = 0;
   }
 }
 

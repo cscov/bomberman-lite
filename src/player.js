@@ -23,10 +23,10 @@ class Player {
     }
     let dx;
     let dy;
-    if (e.key === "ArrowLeft") { // left arrow
+    if (e.key === "ArrowLeft") {
       dx = -22;
       dy = 0;
-    } else if (e.key === "ArrowDown") { // down arrow
+    } else if (e.key === "ArrowDown") { 
       dx = 0;
       dy = 22;
     } else if (e.key === "ArrowUp") {
