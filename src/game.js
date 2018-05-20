@@ -32,12 +32,15 @@ class Game {
           bomb.drawItem();
         } else if (bomb.status === 3) {
           bomb.drawExplosion();
+          this.collisionDetection();
+          this.player.bombs.pop();
         }
       });
     }
     if (!this.gameOver()) {
       window.requestAnimationFrame(this.draw);
     }
+    // this.collisionDetection();
   }
 
   start() {
@@ -54,6 +57,29 @@ class Game {
 
   gameOver() {
     return this.player.status === 0 || this.computer.status === 0;
+  }
+
+  collisionDetection() {
+    debugger
+    let playerPosition = this.player.currentPosition;
+    let bombPosition;
+    if (this.player.bombs) {
+      bombPosition = this.player.bombs[0].position;
+    }
+    let leftBlastRadius = bombPosition.x - 25;
+    let rightBlastRadius = bombPosition.x + 25;
+    let topBlastRadius = bombPosition.y - 25;
+    let bottomBlastRadius = bombPosition.y + 25;
+
+    if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius) {
+      this.player.status = 0;
+      console.log("player died");
+    } else if (playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
+      this.player.status = 0;
+      console.log("player died");
+    } else {
+      console.log("crisis averted");
+    }
   }
 }
 

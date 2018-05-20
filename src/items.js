@@ -27,7 +27,6 @@ class Items {
 
 
   drawExplosion() {
-    console.log("explosion starting");
     this.ctx.beginPath();
     this.ctx.arc(this.position.x, this.position.y, 20, 0, Math.PI*2);
     this.ctx.fillStyle = "#233D4D";
@@ -40,7 +39,6 @@ class Items {
     this.ctx.fill();
     this.ctx.closePath();
 
-    this.player.bombs.pop();
     this.player.numBombs ++;
 
   }
