@@ -131,7 +131,7 @@ h2 {
 }
 
 .show {
-  visibility: visible;
+  visibility: visible !important;
 }
 
 .modal-content {

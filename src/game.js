@@ -42,7 +42,6 @@ class Game {
     } else {
       this.displayEndMessage();
     }
-    // this.collisionDetection();
   }
 
   start() {
@@ -84,12 +83,11 @@ class Game {
     this.started = false;
     if (this.player.status === 0) {
       const modal = document.getElementById('lost');
-      modal.classList.add('show');
+      modal.classList.add("show");
     } else {
       const modal = document.getElementById('won');
       modal.classList.add('show');
     }
-    cancelAnimationFrame(this.drawId);
   }
 }
 

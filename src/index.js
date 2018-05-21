@@ -39,18 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", function () {
     game.start.bind(this);
     game.start();
-  }, false);
+  }, true);
 
   player.game = game;
   computer.game = game;
 
   const play = document.getElementsByClassName('play-again')[0]; // lost
-  play.addEventListener("click", function () {
-    const lost = document.getElementById('lost');
-    lost.classList.remove('show');
-    game.start.bind(this);
-    game.start();
-  }, false);
+  play.addEventListener("click", playAfterLoss(game), false);
+
+
 
   const play2 = document.getElementsByClassName('play-again')[1]; // won
   play2.addEventListener("click", function () {
@@ -69,4 +66,10 @@ function toggleModal() {
   } else {
     modal.style.visibility = 'visible';
   }
+}
+
+function playAfterLoss(game) {
+  const lost = document.getElementById('lost');
+  lost.classList.remove("show");
+  game.start();
 }
