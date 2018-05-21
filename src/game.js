@@ -39,6 +39,8 @@ class Game {
     }
     if (!this.gameOver()) {
       window.requestAnimationFrame(this.draw);
+    } else {
+      this.displayEndMessage();
     }
     // this.collisionDetection();
   }
@@ -79,6 +81,16 @@ class Game {
       console.log("player died");
     } else {
       console.log("crisis averted");
+    }
+  }
+
+  displayEndMessage() {
+    if (this.player.status === 0) {
+      const modal = document.getElementById('lost');
+      modal.classList.add('show');
+    } else {
+      const modal = document.getElementById('won');
+      modal.classList.add('show');
     }
   }
 }

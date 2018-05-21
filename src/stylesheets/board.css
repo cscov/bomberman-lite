@@ -1,7 +1,3 @@
-body {
-  padding-top: 10px;
-}
-
 .top-nav {
   width: 78%;
   display: flex;
@@ -76,6 +72,18 @@ h2 {
   font-family: 'Black Han Sans', sans-serif;
 }
 
+.game-cover {
+  width: 1137px;
+  height: 593px;
+  position: absolute;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.8);
+  left: 149px;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+}
+
 .modal {
   background-color: #fff;
   width: 40em;
@@ -92,6 +100,25 @@ h2 {
   visibility: hidden;
 }
 
+#lost, #won {
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  top: 14em;
+  left: 25em;
+  visibility: hidden;
+}
+
+#lost h2, #won h2 {
+  margin-bottom: 1em;
+}
+
+#lost .modal-content, #won .modal-content {
+  align-items: center;
+  padding: 1em;
+}
+
 .modal .top-nav {
   width: 95%;
   align-items: flex-start;
@@ -101,6 +128,10 @@ h2 {
 #close {
   font-size: 2em;
   cursor: pointer;
+}
+
+.show {
+  visibility: visible !important;
 }
 
 .modal-content {
