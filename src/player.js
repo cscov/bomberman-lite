@@ -26,7 +26,7 @@ class Player {
     if (e.key === "ArrowLeft") {
       dx = -22;
       dy = 0;
-    } else if (e.key === "ArrowDown") { 
+    } else if (e.key === "ArrowDown") {
       dx = 0;
       dy = 22;
     } else if (e.key === "ArrowUp") {
@@ -49,13 +49,6 @@ class Player {
     return this.movePlayer(dx, dy);
   }
 
-  // keyUpHandler(e) {
-  //   let dx = 0;
-  //   let dy = 0;
-  //
-  //   return this.movePlayer(dx, dy);
-  // }
-
   movePlayer(dx, dy) {
     if (this.currentPosition.x + dx < 0 || this.currentPosition.x + dx >= this.canvas.width) {
       dx = 0;
@@ -73,6 +66,25 @@ class Player {
     this.bombs.push(bomb);
     bomb.drawItem();
     window.setTimeout(bomb.detonate.bind(bomb), 3000);
+  }
+
+  collisionDetection() {
+    let playerPosition = this.currentPosition;
+    let bombPosition;
+    if (this.bombs) {
+      bombPosition = this.bombs[0].position;
+    }
+    let leftBlastRadius = bombPosition.x - 25;
+    let rightBlastRadius = bombPosition.x + 25;
+    let topBlastRadius = bombPosition.y - 25;
+    let bottomBlastRadius = bombPosition.y + 25;
+
+    if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
+      && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
+        this.player.status = 0;
+      } else {
+        console.log("crisis averted");
+      }
   }
 }
 

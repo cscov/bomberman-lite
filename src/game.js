@@ -13,8 +13,6 @@ class Game {
     this.items = this.player.bombs.concat(this.computer.bombs);
     this.destroyables = this.allDestroyableObjects();
     this.draw = this.draw.bind(this);
-
-    console.log(this.allDestroyableObjects());
   }
 
   allDestroyableObjects() {
@@ -31,11 +29,10 @@ class Game {
     this.player.drawPlayer();
     if (this.player.setBomb) {
       this.destroyables = this.allDestroyableObjects();
-      console.log(this.destroyables);
       this.player.bombs.forEach( bomb => {
         if (bomb.status === 1) {
           bomb.drawItem();
-          this.player.numBombs --;
+          this.player.numBombs -= 1;
           window.setTimeout(bomb.detonate.bind(bomb), 3000);
           bomb.status = 2;
         } else if (bomb.status === 2) {
@@ -44,6 +41,8 @@ class Game {
           bomb.drawExplosion();
           this.collisionDetection();
           this.player.bombs.pop();
+          this.player.setBomb = false;
+          this.player.numBombs += 1;
         }
       });
     }
@@ -71,7 +70,6 @@ class Game {
   }
 
   collisionDetection() {
-    let playerPosition = this.player.currentPosition;
     let bombPosition;
     if (this.player.bombs) {
       bombPosition = this.player.bombs[0].position;
@@ -81,12 +79,11 @@ class Game {
     let topBlastRadius = bombPosition.y - 25;
     let bottomBlastRadius = bombPosition.y + 25;
 
-    if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
-      && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
-      this.player.status = 0;
-    } else {
-      console.log("crisis averted");
-    }
+    const collidedBrick = this.board.bricksStillStanding().filter(
+      brick => brick.x > leftBlastRadius && brick.x < rightBlastRadius
+    && brick.y > topBlastRadius && brick.y < bottomBlastRadius);
+
+    console.log(collidedBrick);
   }
 
   displayEndMessage() {

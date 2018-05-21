@@ -1,3 +1,4 @@
+
 const Board = require("./board");
 const Computer = require("./computer");
 const Player = require("./player");
@@ -45,9 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
   computer.game = game;
 
   const play = document.getElementsByClassName('play-again')[0]; // lost
-  play.addEventListener("click", playAfterLoss(game), false);
-
-
+  play.addEventListener("click", function () {
+    const lost = document.getElementById('lost');
+    lost.classList.remove('show');
+    game.start.bind(this);
+    game.start();
+  }, false);
 
   const play2 = document.getElementsByClassName('play-again')[1]; // won
   play2.addEventListener("click", function () {
@@ -66,10 +70,4 @@ function toggleModal() {
   } else {
     modal.style.visibility = 'visible';
   }
-}
-
-function playAfterLoss(game) {
-  const lost = document.getElementById('lost');
-  lost.classList.remove("show");
-  game.start();
 }
