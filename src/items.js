@@ -23,6 +23,7 @@ class Items {
 
   detonate() {
     this.status = 3;
+    this.player.setBomb = false;
   }
 
 

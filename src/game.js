@@ -4,14 +4,22 @@ const Player = require("./player");
 const Item = require("./items");
 
 class Game {
-  constructor(board, computer, player, canvas, ctx, item) {
+  constructor(board, computer, player, canvas, ctx) {
     this.board = board;
     this.computer = computer;
     this.player = player;
     this.canvas = canvas;
     this.ctx = ctx;
-    this.item = item;
+    this.items = this.player.bombs.concat(this.computer.bombs);
+    this.destroyables = this.allDestroyableObjects();
     this.draw = this.draw.bind(this);
+
+    console.log(this.allDestroyableObjects());
+  }
+
+  allDestroyableObjects() {
+    return this.board.bricksStillStanding().concat(this.computer, this.player,
+    this.player.bombs, this.computer.bombs);
   }
 
   draw(timestamp) {
@@ -22,6 +30,8 @@ class Game {
     this.computer.drawPlayer();
     this.player.drawPlayer();
     if (this.player.setBomb) {
+      this.destroyables = this.allDestroyableObjects();
+      console.log(this.destroyables);
       this.player.bombs.forEach( bomb => {
         if (bomb.status === 1) {
           bomb.drawItem();
