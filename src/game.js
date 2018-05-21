@@ -54,7 +54,7 @@ class Game {
       gameCover.style.visibility = 'hidden';
     }
 
-    window.requestAnimationFrame(this.draw);
+    this.drawId = window.requestAnimationFrame(this.draw);
   }
 
   gameOver() {
@@ -75,14 +75,13 @@ class Game {
     if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
       && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
       this.player.status = 0;
-      console.log("player died");
     } else {
       console.log("crisis averted");
     }
   }
 
   displayEndMessage() {
-    debugger
+    this.started = false;
     if (this.player.status === 0) {
       const modal = document.getElementById('lost');
       modal.classList.add('show');
@@ -90,6 +89,7 @@ class Game {
       const modal = document.getElementById('won');
       modal.classList.add('show');
     }
+    cancelAnimationFrame(this.drawId);
   }
 }
 

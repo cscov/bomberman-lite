@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
   play.addEventListener("click", function () {
     const lost = document.getElementById('lost');
     lost.classList.remove('show');
-
     game.start.bind(this);
     game.start();
   }, false);
