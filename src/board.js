@@ -83,6 +83,16 @@ class Board {
   draw() {
     this.drawBricks();
   }
+
+  bricksStillStanding() {
+    const bricksStillStanding = [];
+    this.bricks.forEach( column => column.forEach( brick => {
+      if (brick.status == 1) {
+        bricksStillStanding.push(brick);
+      }
+    }));
+    return bricksStillStanding;
+  }
 }
 
 module.exports = Board;
