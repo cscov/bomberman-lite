@@ -42,6 +42,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }, false);
 
   player.game = game;
+  computer.game = game;
+
+  const play = document.getElementsByClassName('play-again')[0]; // lost
+  play.addEventListener("click", function () {
+    const lost = document.getElementById('lost');
+    lost.classList.remove('show');
+
+    game.start.bind(this);
+    game.start();
+  }, false);
+
+  const play2 = document.getElementsByClassName('play-again')[1]; // won
+  play2.addEventListener("click", function () {
+    const won = document.getElementById('won');
+    won.classList.remove('show');
+    game.start.bind(this);
+    game.start();
+  }, false);
 
 });
 

@@ -62,7 +62,6 @@ class Game {
   }
 
   collisionDetection() {
-    debugger
     let playerPosition = this.player.currentPosition;
     let bombPosition;
     if (this.player.bombs) {
@@ -73,10 +72,8 @@ class Game {
     let topBlastRadius = bombPosition.y - 25;
     let bottomBlastRadius = bombPosition.y + 25;
 
-    if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius) {
-      this.player.status = 0;
-      console.log("player died");
-    } else if (playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
+    if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
+      && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
       this.player.status = 0;
       console.log("player died");
     } else {
@@ -85,6 +82,7 @@ class Game {
   }
 
   displayEndMessage() {
+    debugger
     if (this.player.status === 0) {
       const modal = document.getElementById('lost');
       modal.classList.add('show');
