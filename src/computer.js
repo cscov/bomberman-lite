@@ -46,20 +46,20 @@ class Computer {
     let moveKey = this.moveKeys[moveIndex];
 
     if (moveKey === 'left') {
-      dx = -22;
+      dx = -33;
       dy = 0;
       newMove = this.walkingCollisionDetection(dx, dy);
     } else if (moveKey === 'up') {
       dx = 0;
-      dy = -22;
+      dy = -33;
       newMove = this.walkingCollisionDetection(dx, dy);
     } else if (moveKey === 'right') {
-      dx = 22;
+      dx = 33;
       dy = 0;
       newMove = this.walkingCollisionDetection(dx, dy);
     } else if (moveKey === 'down') {
       dx = 0;
-      dy = 22;
+      dy = 33;
       newMove = this.walkingCollisionDetection(dx, dy);
     }
     dx = newMove.dx;
@@ -68,10 +68,10 @@ class Computer {
   }
 
   moveComputer(dx, dy) {
-    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + dx >= this.canvas.width) {
+    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + 22 + dx >= this.canvas.width) {
       dx = 0;
     }
-    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + dy >= this.canvas.height) {
+    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + 44 + dy >= this.canvas.height) {
       dy = 0;
     }
     this.currentPosition.x += dx;
