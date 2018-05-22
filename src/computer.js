@@ -4,14 +4,14 @@ class Computer {
     this.ctx = ctx;
     this.canvas = canvas;
     this.img = img;
-    this.position = { x: canvas.width - 44, y: canvas.height - 44 };
+    this.currentPosition = { x: canvas.width - 44, y: canvas.height - 44 };
     this.status = 1;
     this.game = game;
     this.moveKeys = ['left', 'up', 'right', 'down'];
   }
   drawPlayer() {
-    this.ctx.drawImage(this.img, this.position.x,
-                       this.position.y, 44, 44);
+    this.ctx.drawImage(this.img, this.currentPosition.x,
+                       this.currentPosition.y, 44, 44);
   }
 
   walkingCollisionDetection(dx, dy) {

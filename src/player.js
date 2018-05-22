@@ -6,16 +6,17 @@ class Player {
     this.ctx = ctx;
     this.canvas = canvas;
     this.img = img;
-    this.position = {x: 0, y: 65 };
+    this.currentPosition = {x: 0, y: 65 };
     this.status = 1;
     this.numBombs = 1;
     this.game = game;
     this.width = 44;
     this.height = 44;
+    this.bombs = [];
   }
 
   drawPlayer() {
-    this.ctx.drawImage(this.img, this.position.x, this.position.y,
+    this.ctx.drawImage(this.img, this.currentPosition.x, this.currentPosition.y,
     44, 44);
   }
 
@@ -62,12 +63,12 @@ class Player {
 
   movePlayer(dx, dy) {
 
-    if (this.position.x + dx < 0 || this.position.x + dx >= this.canvas.width
-    || this.position.x + this.width >= this.canvas.width) {
+    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + dx >= this.canvas.width
+    || this.currentPosition.x + this.width >= this.canvas.width) {
       dx = 0;
     }
-    if (this.position.y + dy < 65 || this.position.y + dy >= this.canvas.height
-    || this.position.y + this.height >= this.canvas.height) {
+    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + dy >= this.canvas.height
+    || this.currentPosition.y + this.height >= this.canvas.height) {
       dy = 0;
     }
     if (this.currentPosition.x + dx < 0 || this.currentPosition.x + 22 + dx >= this.canvas.width) {
@@ -77,15 +78,15 @@ class Player {
 
       dy = 0;
     }
-    this.position.x += dx;
-    this.position.y += dy;
+    this.currentPosition.x += dx;
+    this.currentPosition.y += dy;
     return this.drawPlayer();
   }
 
   placeBomb() {
     this.numBombs -= 1;
-    const bomb = new Item(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y}, this.game);
-    this.game.bombs.push(bomb);
+    const bomb = new Item(this.ctx, this, 'bomb', "#233D4D", {x: this.currentPosition.x + 15, y: this.currentPosition.y}, this.game);
+    this.bombs.push(bomb);
     bomb.drawItem();
     window.setTimeout(bomb.detonate.bind(bomb), 3000);
   }
