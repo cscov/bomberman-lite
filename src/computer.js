@@ -8,12 +8,7 @@ class Computer {
     this.numBombs = 1;
     this.bombs = [];
     this.game = game;
-    this.moves = {
-      'left': [-22, 0],
-      'up': [0, -22],
-      'right': [22, 0],
-      'down': [0, 22]
-    };
+    this.moveKeys = ['left', 'up', 'right', 'down', 'bomb'];
   }
 
   drawPlayer() {
