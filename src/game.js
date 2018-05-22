@@ -80,6 +80,8 @@ class Game {
     }
     if (this.computer.bombs.length > 0) {
       computerBombPosition = this.computer.bombs[0].position;
+      this.computer.bombAvatarCollisionDetection(computerBombPosition);
+      this.computer.bombBrickCollisionDetection(computerBombPosition);
     }
 
   }
