@@ -64,11 +64,12 @@
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
+/* 0 */,
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-const Bomb = __webpack_require__(3);
+const Bomb = __webpack_require__(6);
 
 class Player {
   constructor(ctx, canvas, img, game) {
@@ -147,7 +148,7 @@ module.exports = Player;
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports) {
 
 class Board {
@@ -268,10 +269,10 @@ module.exports = Board;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Bomb = __webpack_require__(3);
+const Bomb = __webpack_require__(6);
 
 class Computer {
   constructor(ctx, canvas, img, game) {
@@ -336,92 +337,14 @@ module.exports = Computer;
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Player = __webpack_require__(0);
-
-class Bomb {
-  constructor(ctx, player, type, color, position, game) {
-    this.ctx = ctx;
-    this.player = player;
-    this.type = type;
-    this.status = 1;
-    this.color = color;
-    this.position = {x: position.x, y: position.y};
-    this.blastRadius = 50;
-    this.game = game;
-  }
-
-  drawItem() {
-    if (this.type === 'bomb') {
-      this.ctx.beginPath();
-      this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
-      this.ctx.fillStyle = this.color;
-      this.ctx.fill();
-      this.ctx.closePath();
-    }
-  }
-
-  isCollidedWith(otherObj) {
-    let leftX = this.position.x - this.blastRadius;
-    let rightX = this.position.x + this.blastRadius;
-    let upY = this.position.y + this.blastRadius;
-    let downY = this.position.y - this.blastRadius;
-
-    if (otherObj.position.x > leftX && otherObj.position.x < this.position.x) {
-      return true;
-    }
-    if (otherObj.position.x > this.position.x && otherObj.position.x < rightX) {
-      return true;
-    }
-    if (otherObj.position.y > this.position.y && otherObj.position.y < upY) {
-      return true;
-    }
-    if (otherObj.position.y < this.position.y && otherObj.position.y > downY) {
-      return true;
-    }
-    return false;
-  }
-
-  detonate() {
-    this.status = 3;
-  }
-
-
-  drawExplosion() {
-    this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, 50, 0, Math.PI*2);
-    this.ctx.fillStyle = "#233D4D";
-    this.ctx.fill();
-    this.ctx.closePath();
-
-    this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, 40, 0, Math.PI*2);
-    this.ctx.fillStyle = "#64a7d1";
-    this.ctx.fill();
-    this.ctx.closePath();
-
-    this.player.numBombs += 1;
-    this.player.setBomb = false;
-
-    this.game.remove(this);
-
-  }
-}
-
-module.exports = Bomb;
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-const Board = __webpack_require__(1);
-const Computer = __webpack_require__(2);
-const Player = __webpack_require__(0);
-const GameView = __webpack_require__(6);
+const Board = __webpack_require__(2);
+const Computer = __webpack_require__(3);
+const Player = __webpack_require__(1);
+const GameView = __webpack_require__(7);
 const Game = __webpack_require__(5);
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -500,11 +423,11 @@ function toggleModal() {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Board = __webpack_require__(1);
-const Computer = __webpack_require__(2);
-const Player = __webpack_require__(0);
+const Board = __webpack_require__(2);
+const Computer = __webpack_require__(3);
+const Player = __webpack_require__(1);
 
-const Bomb = __webpack_require__(3);
+const Bomb = __webpack_require__(6);
 
 class Game {
   constructor(board, computer, player, canvas, ctx, item) {
@@ -610,6 +533,84 @@ module.exports = Game;
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Player = __webpack_require__(1);
+
+class Bomb {
+  constructor(ctx, player, type, color, position, game) {
+    this.ctx = ctx;
+    this.player = player;
+    this.type = type;
+    this.status = 1;
+    this.color = color;
+    this.position = {x: position.x, y: position.y};
+    this.blastRadius = 50;
+    this.game = game;
+  }
+
+  drawItem() {
+    if (this.type === 'bomb') {
+      this.ctx.beginPath();
+      this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
+      this.ctx.fillStyle = this.color;
+      this.ctx.fill();
+      this.ctx.closePath();
+    }
+  }
+
+  isCollidedWith(otherObj) {
+    let leftX = this.position.x - this.blastRadius;
+    let rightX = this.position.x + this.blastRadius;
+    let upY = this.position.y + this.blastRadius;
+    let downY = this.position.y - this.blastRadius;
+
+    if (otherObj.position.x > leftX && otherObj.position.x < this.position.x) {
+      return true;
+    }
+    if (otherObj.position.x > this.position.x && otherObj.position.x < rightX) {
+      return true;
+    }
+    if (otherObj.position.y > this.position.y && otherObj.position.y < upY) {
+      return true;
+    }
+    if (otherObj.position.y < this.position.y && otherObj.position.y > downY) {
+      return true;
+    }
+    return false;
+  }
+
+  detonate() {
+    this.status = 3;
+  }
+
+
+  drawExplosion() {
+    this.ctx.beginPath();
+    this.ctx.arc(this.position.x, this.position.y, 50, 0, Math.PI*2);
+    this.ctx.fillStyle = "#233D4D";
+    this.ctx.fill();
+    this.ctx.closePath();
+
+    this.ctx.beginPath();
+    this.ctx.arc(this.position.x, this.position.y, 40, 0, Math.PI*2);
+    this.ctx.fillStyle = "#64a7d1";
+    this.ctx.fill();
+    this.ctx.closePath();
+
+    this.player.numBombs += 1;
+    this.player.setBomb = false;
+
+    this.game.remove(this);
+
+  }
+}
+
+module.exports = Bomb;
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports) {
 
 class GameView {
