@@ -71,7 +71,7 @@ class Computer {
     if (this.currentPosition.x + dx < 0 || this.currentPosition.x + 22 + dx >= this.canvas.width) {
       dx = 0;
     }
-    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + 44 + dy >= this.canvas.height) {
+    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + 22 + dy >= this.canvas.height) {
       dy = 0;
     }
     this.currentPosition.x += dx;
