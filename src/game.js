@@ -46,6 +46,25 @@ class Game {
         }
       });
     }
+    if (this.computer.setBomb) {
+      this.destroyables = this.allDestroyableObjects();
+      this.computer.bombs.forEach( bomb => {
+        if (bomb.status === 1) {
+          bomb.drawItem();
+          this.computer.numBombs -= 1;
+          window.setTimeout(bomb.detonate.bind(bomb), 3000);
+          bomb.status = 2;
+        } else if (bomb.status === 2) {
+          bomb.drawItem();
+        } else if (bomb.status === 3) {
+          bomb.drawExplosion();
+          this.collisionDetection();
+          this.computer.bombs.pop();
+          this.computer.setBomb = false;
+          this.computer.numBombs += 1;
+        }
+      });
+    }
     if (!this.gameOver()) {
       window.requestAnimationFrame(this.draw);
     } else {
