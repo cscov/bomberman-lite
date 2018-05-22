@@ -79,10 +79,11 @@ class Game {
     let topBlastRadius = bombPosition.y - 50;
     let bottomBlastRadius = bombPosition.y + 50;
 
-    const collidedBrick = this.board.bricksStillStanding().filter(
+    const collidedBricks = this.board.bricksStillStanding().filter(
       brick => brick.x > leftBlastRadius && brick.x < rightBlastRadius
     && brick.y > topBlastRadius && brick.y < bottomBlastRadius);
 
+    collidedBricks.forEach( brick => {brick.status = 0;});
   }
 
   displayEndMessage() {
