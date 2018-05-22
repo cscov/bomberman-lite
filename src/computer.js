@@ -66,6 +66,18 @@ class Computer {
     dy = newMove.dy;
     return this.moveComputer(dx, dy);
   }
+
+  moveComputer(dx, dy) {
+    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + dx >= this.canvas.width) {
+      dx = 0;
+    }
+    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + dy >= this.canvas.height) {
+      dy = 0;
+    }
+    this.currentPosition.x += dx;
+    this.currentPosition.y += dy;
+    return this.drawPlayer();
+  }
 }
 
 module.exports = Computer;
