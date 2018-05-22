@@ -62,7 +62,7 @@ class Game {
     } else {
       gameCover.style.visibility = 'hidden';
     }
-
+    window.setInterval(this.computer.handleAction.bind(this.computer), 500);
     this.drawId = window.requestAnimationFrame(this.draw);
   }
 
