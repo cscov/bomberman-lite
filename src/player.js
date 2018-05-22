@@ -21,20 +21,29 @@ class Player {
     if (!this.game.started) {
       return;
     }
-    let dx;
-    let dy;
+    let dx = 0;
+    let dy = 0;
+    debugger
     if (e.key === "ArrowLeft") {
       dx = -22;
       dy = 0;
+      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
+      console.log(`dx: ${dx}, dy: ${dy}`);
     } else if (e.key === "ArrowDown") {
       dx = 0;
       dy = 22;
+      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
+      console.log(`dx: ${dx}, dy: ${dy}`);
     } else if (e.key === "ArrowUp") {
       dx = 0;
       dy = -22;
+      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
+      console.log(`dx: ${dx}, dy: ${dy}`);
     } else if (e.key === "ArrowRight") {
       dx = 22;
       dy = 0;
+      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
+      console.log(`dx: ${dx}, dy: ${dy}`);
     } else if (e.key === "b") {
       dx = 0;
       dy = 0;
@@ -97,6 +106,18 @@ class Player {
     && brick.y > topBlastRadius && brick.y < bottomBlastRadius);
 
     collidedBricks.forEach( brick => {brick.status = 0;});
+  }
+
+  walkingBrickCollisionDetection(dx, dy) {
+    this.game.board.allVisibleBricks().forEach(column => column.forEach(brick =>
+    {if ((this.currentPosition + 44) + dx >= brick.x) {
+      return { dx: 0, dy: 0 };
+    }
+    if ((this.currentPosition + 44) + dy >= brick.y) {
+      return { dx: 0, dy: 0 };
+    }
+    return { dx, dy };
+  }));
   }
 }
 

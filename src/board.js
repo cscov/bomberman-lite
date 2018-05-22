@@ -87,11 +87,21 @@ class Board {
   bricksStillStanding() {
     const bricksStillStanding = [];
     this.bricks.forEach( column => column.forEach( brick => {
-      if (brick.status == 1) {
+      if (brick.status === 1) {
         bricksStillStanding.push(brick);
       }
     }));
     return bricksStillStanding;
+  }
+
+  allVisibleBricks() {
+    const allVisibleBricks = [];
+    this.bricks.forEach( column => column.forEach( brick => {
+      if (brick.status === 1 || brick.status === 2) {
+        allVisibleBricks.push(brick);
+      }
+    }));
+    return allVisibleBricks;
   }
 }
 

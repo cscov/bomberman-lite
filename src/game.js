@@ -92,6 +92,7 @@ class Game {
     let bombPosition;
     let playerBombPosition;
     let computerBombPosition;
+
     if (this.player.bombs) {
       playerBombPosition = this.player.bombs[0].position;
       this.player.bombAvatarCollisionDetection(playerBombPosition);
