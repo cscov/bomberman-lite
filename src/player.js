@@ -23,27 +23,24 @@ class Player {
     }
     let dx = 0;
     let dy = 0;
-    debugger
+    let newMove = {dx: 0, dy: 0};
+
     if (e.key === "ArrowLeft") {
       dx = -22;
       dy = 0;
-      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
-      console.log(`dx: ${dx}, dy: ${dy}`);
+      newMove = this.walkingBrickCollisionDetection(dx, dy);
     } else if (e.key === "ArrowDown") {
       dx = 0;
       dy = 22;
-      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
-      console.log(`dx: ${dx}, dy: ${dy}`);
+      newMove = this.walkingBrickCollisionDetection(dx, dy);
     } else if (e.key === "ArrowUp") {
       dx = 0;
       dy = -22;
-      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
-      console.log(`dx: ${dx}, dy: ${dy}`);
+      newMove = this.walkingBrickCollisionDetection(dx, dy);
     } else if (e.key === "ArrowRight") {
       dx = 22;
       dy = 0;
-      dx, dy = this.walkingBrickCollisionDetection(dx, dy);
-      console.log(`dx: ${dx}, dy: ${dy}`);
+      newMove = this.walkingBrickCollisionDetection(dx, dy);
     } else if (e.key === "b") {
       dx = 0;
       dy = 0;
@@ -55,6 +52,8 @@ class Player {
       dx = 0;
       dy = 0;
     }
+    dx = newMove.dx;
+    dy = newMove.dy;
     return this.movePlayer(dx, dy);
   }
 
@@ -109,15 +108,17 @@ class Player {
   }
 
   walkingBrickCollisionDetection(dx, dy) {
-    this.game.board.allVisibleBricks().forEach(column => column.forEach(brick =>
-    {if ((this.currentPosition + 44) + dx >= brick.x) {
-      return { dx: 0, dy: 0 };
-    }
-    if ((this.currentPosition + 44) + dy >= brick.y) {
-      return { dx: 0, dy: 0 };
+    const bricks = this.game.board.allVisibleBricks();
+    for (let i = 0; i < bricks.length; i++) {
+      if ((this.currentPosition.x + 22) + dx >= bricks[i].x &&
+      (this.currentPosition.x + 22) + dx <= bricks[i].x + 44 &&
+      (this.currentPosition.y + 22) + dy >= bricks[i].y &&
+      (this.currentPosition.y + 22) + dy <= bricks[i].y + 44) {
+
+        return {dx: 0, dy: 0};
+      }
     }
     return { dx, dy };
-  }));
   }
 }
 
