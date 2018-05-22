@@ -28,19 +28,20 @@ class Player {
     if (e.key === "ArrowLeft") {
       dx = -22;
       dy = 0;
-      newMove = this.walkingBrickCollisionDetection(dx, dy);
+      newMove = this.walkingCollisionDetection(dx, dy);
+
     } else if (e.key === "ArrowDown") {
       dx = 0;
       dy = 22;
-      newMove = this.walkingBrickCollisionDetection(dx, dy);
+      newMove = this.walkingCollisionDetection(dx, dy);
     } else if (e.key === "ArrowUp") {
       dx = 0;
       dy = -22;
-      newMove = this.walkingBrickCollisionDetection(dx, dy);
+      newMove = this.walkingCollisionDetection(dx, dy);
     } else if (e.key === "ArrowRight") {
       dx = 22;
       dy = 0;
-      newMove = this.walkingBrickCollisionDetection(dx, dy);
+      newMove = this.walkingCollisionDetection(dx, dy);
     } else if (e.key === "b") {
       dx = 0;
       dy = 0;
@@ -107,17 +108,23 @@ class Player {
     collidedBricks.forEach( brick => {brick.status = 0;});
   }
 
-  walkingBrickCollisionDetection(dx, dy) {
+  walkingCollisionDetection(dx, dy) {
     const bricks = this.game.board.allVisibleBricks();
     for (let i = 0; i < bricks.length; i++) {
       if ((this.currentPosition.x + 22) + dx >= bricks[i].x &&
       (this.currentPosition.x + 22) + dx <= bricks[i].x + 44 &&
       (this.currentPosition.y + 22) + dy >= bricks[i].y &&
       (this.currentPosition.y + 22) + dy <= bricks[i].y + 44) {
-
         return {dx: 0, dy: 0};
       }
     }
+    if ((this.currentPosition.x + 22) + dx >= this.game.computer.currentPosition.x
+        && (this.currentPosition.x + 22) + dx <= this.game.computer.currentPosition.x + 22
+        && (this.currentPosition.y + 22) + dy >= this.game.computer.currentPosition.y
+        && (this.currentPosition.y + 22) + dy <= this.game.computer.currentPosition.y + 22) {
+      return { dx: 0, dy: 0};
+    }
+    
     return { dx, dy };
   }
 }
