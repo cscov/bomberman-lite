@@ -2,8 +2,8 @@
 const Board = require("./board");
 const Computer = require("./computer");
 const Player = require("./player");
-const GameView = require("./game_view");
 const Game = require("./game");
+const Item = require("./items");
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = document.getElementById('my-canvas');
@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const board = new Board(canvasEl, ctx, canvasEl.width/2, canvasEl.height-65);
   board.initializeBricks();
-
-
 
   const computerSprite = new Image();
   const computer = new Computer(ctx, canvasEl, computerSprite);
@@ -43,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", function () {
     game.start.bind(this);
     game.start();
-  }, false);
+  }, true);
 
   player.game = game;
   computer.game = game;
@@ -52,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   play.addEventListener("click", function () {
     const lost = document.getElementById('lost');
     lost.classList.remove('show');
-
+    document.location.reload();
     game.start.bind(this);
     game.start();
   }, false);
@@ -61,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   play2.addEventListener("click", function () {
     const won = document.getElementById('won');
     won.classList.remove('show');
+    document.location.reload();
     game.start.bind(this);
     game.start();
   }, false);

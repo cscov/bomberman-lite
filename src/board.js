@@ -99,16 +99,24 @@ class Board {
     this.drawBricks();
   }
 
-  getBricks() {
-    return this.bricks;
+  bricksStillStanding() {
+    const bricksStillStanding = [];
+    this.bricks.forEach( column => column.forEach( brick => {
+      if (brick.status === 1) {
+        bricksStillStanding.push(brick);
+      }
+    }));
+    return bricksStillStanding;
   }
 
-  getColumnCount() {
-    return this.brickColumnCount;
-  }
-
-  getRowCount() {
-    return this.brickRowCount;
+  allVisibleBricks() {
+    const allVisibleBricks = [];
+    this.bricks.forEach( column => column.forEach( brick => {
+      if (brick.status === 1 || brick.status === 2) {
+        allVisibleBricks.push(brick);
+      }
+    }));
+    return allVisibleBricks;
   }
 }
 

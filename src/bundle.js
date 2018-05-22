@@ -64,12 +64,62 @@
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Player = __webpack_require__(1);
+
+class Items {
+  constructor(ctx, player, type, color, position) {
+    this.ctx = ctx;
+    this.player = player;
+    this.type = type;
+    this.status = 1;
+    this.color = color;
+    this.position = {x: position.x, y: position.y};
+    this.radius = 50;
+
+  }
+
+  drawItem() {
+    if (this.type === 'bomb') {
+      this.ctx.beginPath();
+      this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
+      this.ctx.fillStyle = this.color;
+      this.ctx.fill();
+      this.ctx.closePath();
+    }
+  }
+
+  detonate() {
+    this.status = 3;
+  }
+
+
+  drawExplosion() {
+    this.ctx.beginPath();
+    this.ctx.arc(this.position.x, this.position.y, 50, 0, Math.PI*2);
+    this.ctx.fillStyle = "#233D4D";
+    this.ctx.fill();
+    this.ctx.closePath();
+
+    this.ctx.beginPath();
+    this.ctx.arc(this.position.x, this.position.y, 45, 0, Math.PI*2);
+    this.ctx.fillStyle = "#64a7d1";
+    this.ctx.fill();
+    this.ctx.closePath();
+  }
+}
+
+module.exports = Items;
+
+
+/***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-const Bomb = __webpack_require__(6);
+const Item = __webpack_require__(0);
 
 class Player {
   constructor(ctx, canvas, img, game) {
@@ -93,20 +143,27 @@ class Player {
     if (!this.game.started) {
       return;
     }
-    let dx;
-    let dy;
-    if (e.key === "ArrowLeft") { // left arrow
+    let dx = 0;
+    let dy = 0;
+    let newMove = {dx: 0, dy: 0};
+
+    if (e.key === "ArrowLeft") {
       dx = -22;
       dy = 0;
-    } else if (e.key === "ArrowDown") { // down arrow
+      newMove = this.walkingCollisionDetection(dx, dy);
+
+    } else if (e.key === "ArrowDown") {
       dx = 0;
       dy = 22;
+      newMove = this.walkingCollisionDetection(dx, dy);
     } else if (e.key === "ArrowUp") {
       dx = 0;
       dy = -22;
+      newMove = this.walkingCollisionDetection(dx, dy);
     } else if (e.key === "ArrowRight") {
       dx = 22;
       dy = 0;
+      newMove = this.walkingCollisionDetection(dx, dy);
     } else if (e.key === "b") {
       dx = 0;
       dy = 0;
@@ -118,16 +175,26 @@ class Player {
       dx = 0;
       dy = 0;
     }
+    dx = newMove.dx;
+    dy = newMove.dy;
     return this.movePlayer(dx, dy);
   }
 
   movePlayer(dx, dy) {
+
     if (this.position.x + dx < 0 || this.position.x + dx >= this.canvas.width
     || this.position.x + this.width >= this.canvas.width) {
       dx = 0;
     }
     if (this.position.y + dy < 65 || this.position.y + dy >= this.canvas.height
     || this.position.y + this.height >= this.canvas.height) {
+      dy = 0;
+    }
+    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + 22 + dx >= this.canvas.width) {
+      dx = 0;
+    }
+    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + 22 + dy >= this.canvas.height) {
+
       dy = 0;
     }
     this.position.x += dx;
@@ -137,10 +204,61 @@ class Player {
 
   placeBomb() {
     this.numBombs -= 1;
-    const bomb = new Bomb(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y}, this.game);
+    const bomb = new Item(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y}, this.game);
     this.game.bombs.push(bomb);
     bomb.drawItem();
     window.setTimeout(bomb.detonate.bind(bomb), 3000);
+  }
+
+  bombAvatarCollisionDetection(bombPosition) {
+    let playerPosition = this.currentPosition;
+    let computerPosition = this.game.computer.currentPosition;
+    let leftBlastRadius = bombPosition.x - 50;
+    let rightBlastRadius = bombPosition.x + 50;
+    let topBlastRadius = bombPosition.y - 50;
+    let bottomBlastRadius = bombPosition.y + 50;
+
+    if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
+      && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
+        this.status = 0;
+    }
+    if (computerPosition.x > leftBlastRadius && computerPosition.x < rightBlastRadius
+      && computerPosition.y > topBlastRadius && computerPosition.y < bottomBlastRadius) {
+        this.game.computer.status = 0;
+    }
+  }
+
+  bombBrickCollisionDetection(bombPosition) {
+    let leftBlastRadius = bombPosition.x - 50;
+    let rightBlastRadius = bombPosition.x + 50;
+    let topBlastRadius = bombPosition.y - 50;
+    let bottomBlastRadius = bombPosition.y + 50;
+
+    const collidedBricks = this.game.board.bricksStillStanding().filter(
+      brick => brick.x > leftBlastRadius && brick.x < rightBlastRadius
+    && brick.y > topBlastRadius && brick.y < bottomBlastRadius);
+
+    collidedBricks.forEach( brick => {brick.status = 0;});
+  }
+
+  walkingCollisionDetection(dx, dy) {
+    const bricks = this.game.board.allVisibleBricks();
+    for (let i = 0; i < bricks.length; i++) {
+      if ((this.currentPosition.x + 22) + dx >= bricks[i].x &&
+      (this.currentPosition.x + 22) + dx <= bricks[i].x + 44 &&
+      (this.currentPosition.y + 22) + dy >= bricks[i].y &&
+      (this.currentPosition.y + 22) + dy <= bricks[i].y + 44) {
+        return {dx: 0, dy: 0};
+      }
+    }
+    if ((this.currentPosition.x + 22) + dx >= this.game.computer.currentPosition.x
+        && (this.currentPosition.x + 22) + dx <= this.game.computer.currentPosition.x + 22
+        && (this.currentPosition.y + 22) + dy >= this.game.computer.currentPosition.y
+        && (this.currentPosition.y + 22) + dy <= this.game.computer.currentPosition.y + 22) {
+      return { dx: 0, dy: 0};
+    }
+
+    return { dx, dy };
   }
 }
 
@@ -252,16 +370,24 @@ class Board {
     this.drawBricks();
   }
 
-  getBricks() {
-    return this.bricks;
+  bricksStillStanding() {
+    const bricksStillStanding = [];
+    this.bricks.forEach( column => column.forEach( brick => {
+      if (brick.status === 1) {
+        bricksStillStanding.push(brick);
+      }
+    }));
+    return bricksStillStanding;
   }
 
-  getColumnCount() {
-    return this.brickColumnCount;
-  }
-
-  getRowCount() {
-    return this.brickRowCount;
+  allVisibleBricks() {
+    const allVisibleBricks = [];
+    this.bricks.forEach( column => column.forEach( brick => {
+      if (brick.status === 1 || brick.status === 2) {
+        allVisibleBricks.push(brick);
+      }
+    }));
+    return allVisibleBricks;
   }
 }
 
@@ -270,9 +396,8 @@ module.exports = Board;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-const Bomb = __webpack_require__(6);
 
 class Computer {
   constructor(ctx, canvas, img, game) {
@@ -281,57 +406,78 @@ class Computer {
     this.img = img;
     this.position = { x: canvas.width - 44, y: canvas.height - 44 };
     this.status = 1;
-    this.numBombs = 1;
     this.game = game;
+    this.moveKeys = ['left', 'up', 'right', 'down'];
   }
   drawPlayer() {
     this.ctx.drawImage(this.img, this.position.x,
                        this.position.y, 44, 44);
-    
   }
 
-  movePlayer() {
+  walkingCollisionDetection(dx, dy) {
+    const bricks = this.game.board.allVisibleBricks();
+    for (let i = 0; i < bricks.length; i++) {
+      if ((this.currentPosition.x + 22) + dx >= bricks[i].x &&
+      (this.currentPosition.x + 22) + dx <= bricks[i].x + 44 &&
+      (this.currentPosition.y + 22) + dy >= bricks[i].y &&
+      (this.currentPosition.y + 22) + dy <= bricks[i].y + 44) {
+        return {dx: 0, dy: 0};
+      }
+    }
+    if ((this.currentPosition.x + 22) + dx >= this.game.player.currentPosition.x
+        && (this.currentPosition.x + 22) + dx <= this.game.player.currentPosition.x + 22
+        && (this.currentPosition.y + 22) + dy >= this.game.player.currentPosition.y
+        && (this.currentPosition.y + 22) + dy <= this.game.player.currentPosition.y + 22) {
+      return { dx: 0, dy: 0};
+    }
+
+    return { dx, dy };
+  }
+
+  handleAction() {
     if (!this.game.started) {
       return;
     }
-    let randomMove = Math.floor(Math.random() * 4);
-    let move = MOVES[randomMove];
-    let dx = move[0];
-    let dy = move[1];
+    let dx = 0;
+    let dy = 0;
+    let newMove = { dx: 0, dy: 0 };
+    let moveIndex = Math.floor(Math.random() * 4); // moves.length
+    let moveKey = this.moveKeys[moveIndex];
 
-    if (this.position.x + dx < 0 || this.position.x + dx >= this.canvas.width
-    || this.position.x + this.width >= this.canvas.width) {
+    if (moveKey === 'left') {
+      dx = -33;
+      dy = 0;
+      newMove = this.walkingCollisionDetection(dx, dy);
+    } else if (moveKey === 'up') {
+      dx = 0;
+      dy = -33;
+      newMove = this.walkingCollisionDetection(dx, dy);
+    } else if (moveKey === 'right') {
+      dx = 33;
+      dy = 0;
+      newMove = this.walkingCollisionDetection(dx, dy);
+    } else if (moveKey === 'down') {
+      dx = 0;
+      dy = 33;
+      newMove = this.walkingCollisionDetection(dx, dy);
+    }
+    dx = newMove.dx;
+    dy = newMove.dy;
+    return this.moveComputer(dx, dy);
+  }
+
+  moveComputer(dx, dy) {
+    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + 22 + dx >= this.canvas.width) {
       dx = 0;
     }
-    if (this.position.y + dy < 65 || this.position.y + dy >= this.canvas.height
-    || this.position.y + this.height >= this.canvas.height) {
+    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + 22 + dy >= this.canvas.height) {
       dy = 0;
     }
-    this.position.x += dx;
-    this.position.y += dy;
-    this.placeBomb();
-
+    this.currentPosition.x += dx;
+    this.currentPosition.y += dy;
     return this.drawPlayer();
   }
-
-  placeBomb() {
-    if (this.numBombs === 0) {
-      return;
-    }
-    this.numBombs -= 1;
-    const bomb = new Bomb(this.ctx, this, 'bomb', "#233D4D", {x: this.position.x + 15, y: this.position.y}, this.game);
-    this.game.bombs.push(bomb);
-    bomb.drawItem();
-    window.setTimeout(bomb.detonate.bind(bomb), 3000);
-  }
 }
-
-const MOVES = [
-  [22, 0],
-  [-22, 0],
-  [0, 22],
-  [0, -22]
-];
 
 module.exports = Computer;
 
@@ -344,8 +490,8 @@ module.exports = Computer;
 const Board = __webpack_require__(2);
 const Computer = __webpack_require__(3);
 const Player = __webpack_require__(1);
-const GameView = __webpack_require__(7);
 const Game = __webpack_require__(5);
+const Item = __webpack_require__(0);
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = document.getElementById('my-canvas');
@@ -358,8 +504,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const board = new Board(canvasEl, ctx, canvasEl.width/2, canvasEl.height-65);
   board.initializeBricks();
-
-
 
   const computerSprite = new Image();
   const computer = new Computer(ctx, canvasEl, computerSprite);
@@ -385,7 +529,7 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", function () {
     game.start.bind(this);
     game.start();
-  }, false);
+  }, true);
 
   player.game = game;
   computer.game = game;
@@ -394,7 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
   play.addEventListener("click", function () {
     const lost = document.getElementById('lost');
     lost.classList.remove('show');
-
+    document.location.reload();
     game.start.bind(this);
     game.start();
   }, false);
@@ -403,6 +547,7 @@ document.addEventListener("DOMContentLoaded", () => {
   play2.addEventListener("click", function () {
     const won = document.getElementById('won');
     won.classList.remove('show');
+    document.location.reload();
     game.start.bind(this);
     game.start();
   }, false);
@@ -427,23 +572,22 @@ const Board = __webpack_require__(2);
 const Computer = __webpack_require__(3);
 const Player = __webpack_require__(1);
 
-const Bomb = __webpack_require__(6);
 
 class Game {
-  constructor(board, computer, player, canvas, ctx, item) {
+  constructor(board, computer, player, canvas, ctx) {
     this.board = board;
     this.computer = computer;
     this.player = player;
     this.canvas = canvas;
     this.ctx = ctx;
-    this.items = [];
-    this.bombs = [];
-    this.avatars = [this.player, this.computer];
+    this.items = this.player.bombs;
+    this.destroyables = this.allDestroyableObjects();
     this.draw = this.draw.bind(this);
   }
 
-  allObjects() {
-    return [].concat(this.items, this.bombs, this.avatars, this.board.getBricks());
+  allDestroyableObjects() {
+    return this.board.bricksStillStanding().concat(this.computer, this.player,
+    this.player.bombs, this.computer.bombs);
   }
 
   draw(timestamp) {
@@ -454,9 +598,11 @@ class Game {
     this.computer.drawPlayer();
     this.player.drawPlayer();
     if (this.player.setBomb) {
-      this.bombs.forEach( bomb => {
+      this.destroyables = this.allDestroyableObjects();
+      this.player.bombs.forEach( bomb => {
         if (bomb.status === 1) {
           bomb.drawItem();
+          this.player.numBombs -= 1;
           window.setTimeout(bomb.detonate.bind(bomb), 3000);
           bomb.status = 2;
         } else if (bomb.status === 2) {
@@ -464,10 +610,13 @@ class Game {
         } else if (bomb.status === 3) {
           bomb.drawExplosion();
           this.collisionDetection();
-
+          this.player.bombs.pop();
+          this.player.setBomb = false;
+          this.player.numBombs += 1;
         }
       });
     }
+
     if (!this.gameOver()) {
       window.requestAnimationFrame(this.draw);
     } else {
@@ -477,50 +626,38 @@ class Game {
 
   start() {
     this.started = true;
-    this.player.status = 1;
-    this.computer.status = 1;
     const gameCover = document.getElementById('game-start-cover');
     if (gameCover.style.visibility === 'hidden') {
       gameCover.style.visibility = 'visible';
     } else {
       gameCover.style.visibility = 'hidden';
     }
-    window.requestAnimationFrame(this.draw);
-  }
-
-  collisionDetection() {
-    const allObjects = this.allObjects().filter( obj => obj.status > 0);
-    for (let i = 0; i < allObjects.length; i++) {
-      for (let j = i + 1; j < allObjects.length; j++) {
-        const obj1 = allObjects[i];
-        const obj2 = allObjects[j];
-        if (obj1 instanceof Bomb && obj1.isCollidedWith(obj2)) {
-          obj2.status = 0;
-        } else if (obj2 instanceof Bomb && obj1.isCollidedWith(obj2)) {
-          obj1.status = 0;
-        } else {
-          return;
-        }
-      }
-    }
-  }
-
-  remove(obj) {
-    if (obj instanceof Bomb) {
-      this.bombs.splice(this.bombs.indexOf(obj), 1);
-    } else if (obj instanceof Board) {
-      this.board.getBricks().splice(this.board.getBricks().indexOf(obj), 1);
-    }
+    window.setInterval(this.computer.handleAction.bind(this.computer), 500);
+    this.drawId = window.requestAnimationFrame(this.draw);
   }
 
   gameOver() {
     return this.player.status === 0 || this.computer.status === 0;
   }
 
+
+  collisionDetection() {
+    let bombPosition;
+    let playerBombPosition;
+    let computerBombPosition;
+
+    if (this.player.bombs) {
+      playerBombPosition = this.player.bombs[0].position;
+      this.player.bombAvatarCollisionDetection(playerBombPosition);
+      this.player.bombBrickCollisionDetection(playerBombPosition);
+    }
+  }
+
   displayEndMessage() {
+    this.started = false;
     if (this.player.status === 0) {
       const modal = document.getElementById('lost');
-      modal.classList.add('show');
+      modal.classList.add("show");
     } else {
       const modal = document.getElementById('won');
       modal.classList.add('show');
@@ -529,134 +666,6 @@ class Game {
 }
 
 module.exports = Game;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Player = __webpack_require__(1);
-
-class Bomb {
-  constructor(ctx, player, type, color, position, game) {
-    this.ctx = ctx;
-    this.player = player;
-    this.type = type;
-    this.status = 1;
-    this.color = color;
-    this.position = {x: position.x, y: position.y};
-    this.blastRadius = 50;
-    this.game = game;
-  }
-
-  drawItem() {
-    if (this.type === 'bomb') {
-      this.ctx.beginPath();
-      this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
-      this.ctx.fillStyle = this.color;
-      this.ctx.fill();
-      this.ctx.closePath();
-    }
-  }
-
-  isCollidedWith(otherObj) {
-    let leftX = this.position.x - this.blastRadius;
-    let rightX = this.position.x + this.blastRadius;
-    let upY = this.position.y + this.blastRadius;
-    let downY = this.position.y - this.blastRadius;
-
-    if (otherObj.position.x > leftX && otherObj.position.x < this.position.x) {
-      return true;
-    }
-    if (otherObj.position.x > this.position.x && otherObj.position.x < rightX) {
-      return true;
-    }
-    if (otherObj.position.y > this.position.y && otherObj.position.y < upY) {
-      return true;
-    }
-    if (otherObj.position.y < this.position.y && otherObj.position.y > downY) {
-      return true;
-    }
-    return false;
-  }
-
-  detonate() {
-    this.status = 3;
-  }
-
-
-  drawExplosion() {
-    this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, 50, 0, Math.PI*2);
-    this.ctx.fillStyle = "#233D4D";
-    this.ctx.fill();
-    this.ctx.closePath();
-
-    this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, 40, 0, Math.PI*2);
-    this.ctx.fillStyle = "#64a7d1";
-    this.ctx.fill();
-    this.ctx.closePath();
-
-    this.player.numBombs += 1;
-    this.player.setBomb = false;
-
-    this.game.remove(this);
-
-  }
-}
-
-module.exports = Bomb;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-class GameView {
-  constructor(game, canvasEl, ctx) {
-    this.ctx = ctx;
-    this.game = game;
-    this.canvasEl = canvasEl;
-    this.computer = this.game.addComputer();
-    this.board = this.game.addBoard();
-    this.player = this.game.addPlayer();
-  }
-
-  bindComputerHandlers() {
-    const computer = this.computer;
-
-    if (!this.computer.isComputerDead()) {
-      Object.keys(GameView.MOVES).forEach( stepTaken => {
-        const move = GameView.MOVES[stepTaken];
-        this.computer.movePlayer(move);
-      });
-
-    }
-  }
-
-  start() {
-    this.bindComputerHandlers();
-    this.lastTime = 0;
-    requestAnimationFrame(this.animate.bind(this));
-  }
-
-  animate(time) {
-    const timeDelta = time - this.lastTime;
-    this.computer.step(timeDelta);
-    this.lastTime = time;
-
-    requestAnimationFrame(this.animate.bind(this));
-  }
-}
-
-GameView.MOVES = {
-  a: [-1, 0],
-  b: [0, -1],
-  c: [0, 1],
-  d: [1, 0]
-};
-module.exports = GameView;
 
 
 /***/ })

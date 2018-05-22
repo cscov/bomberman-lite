@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="src/stylesheets/board.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./src/bundle.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119604626-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-119604626-2');
+    </script>
   </head>
   <body>
     <section class="modal">
@@ -34,8 +43,7 @@
         </p>
       </section>
     </section>
-    <section class="game-cover"></section>
-      <section class="modal" id="lost">
+    <section class="modal" id="lost">
         <section class="modal-content">
           <h2>You lost!</h2>
           <button class="play-again">PLAY AGAIN</button>
