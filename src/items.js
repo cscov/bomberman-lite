@@ -39,9 +39,6 @@ class Items {
     this.ctx.fillStyle = "#64a7d1";
     this.ctx.fill();
     this.ctx.closePath();
-
-    this.player.numBombs ++;
-
   }
 }
 
