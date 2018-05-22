@@ -3,6 +3,7 @@ const Board = require("./board");
 const Computer = require("./computer");
 const Player = require("./player");
 const Game = require("./game");
+const Item = require("./items");
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = document.getElementById('my-canvas');

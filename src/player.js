@@ -80,10 +80,10 @@ class Player {
   bombAvatarCollisionDetection(bombPosition) {
     let playerPosition = this.currentPosition;
     let computerPosition = this.game.computer.currentPosition;
-    let leftBlastRadius = bombPosition.x - 25;
-    let rightBlastRadius = bombPosition.x + 25;
-    let topBlastRadius = bombPosition.y - 25;
-    let bottomBlastRadius = bombPosition.y + 25;
+    let leftBlastRadius = bombPosition.x - 50;
+    let rightBlastRadius = bombPosition.x + 50;
+    let topBlastRadius = bombPosition.y - 50;
+    let bottomBlastRadius = bombPosition.y + 50;
 
     if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
       && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
@@ -124,7 +124,7 @@ class Player {
         && (this.currentPosition.y + 22) + dy <= this.game.computer.currentPosition.y + 22) {
       return { dx: 0, dy: 0};
     }
-    
+
     return { dx, dy };
   }
 }
