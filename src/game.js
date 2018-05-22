@@ -71,13 +71,19 @@ class Game {
 
   collisionDetection() {
     let bombPosition;
+    let playerBombPosition;
+    let computerBombPosition;
     if (this.player.bombs) {
-      bombPosition = this.player.bombs[0].position;
+      playerBombPosition = this.player.bombs[0].position;
+      this.player.bombCollisionDetection(playerBombPosition);
     }
-    let leftBlastRadius = bombPosition.x - 50;
-    let rightBlastRadius = bombPosition.x + 50;
-    let topBlastRadius = bombPosition.y - 50;
-    let bottomBlastRadius = bombPosition.y + 50;
+    if (this.computer.bombs.length > 0) {
+      computerBombPosition = this.computer.bombs[0].position;
+    }
+    let leftBlastRadius = playerBombPosition.x - 50;
+    let rightBlastRadius = playerBombPosition.x + 50;
+    let topBlastRadius = playerBombPosition.y - 50;
+    let bottomBlastRadius = playerBombPosition.y + 50;
 
     const collidedBricks = this.board.bricksStillStanding().filter(
       brick => brick.x > leftBlastRadius && brick.x < rightBlastRadius

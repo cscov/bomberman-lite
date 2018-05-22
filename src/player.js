@@ -68,12 +68,9 @@ class Player {
     window.setTimeout(bomb.detonate.bind(bomb), 3000);
   }
 
-  collisionDetection() {
+  bombCollisionDetection(bombPosition) {
     let playerPosition = this.currentPosition;
-    let bombPosition;
-    if (this.bombs) {
-      bombPosition = this.bombs[0].position;
-    }
+    let computerPosition = this.game.computer.currentPosition;
     let leftBlastRadius = bombPosition.x - 25;
     let rightBlastRadius = bombPosition.x + 25;
     let topBlastRadius = bombPosition.y - 25;
@@ -82,9 +79,12 @@ class Player {
     if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
       && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
         this.player.status = 0;
-      } else {
-        console.log("crisis averted");
-      }
+    }
+    if (computerPosition.x > leftBlastRadius && computerPosition.x < rightBlastRadius
+      && computerPosition.y > topBlastRadius && computerPosition.y < bottomBlastRadius) {
+        this.game.computer.status = 0;
+    }
+
   }
 }
 
