@@ -8,6 +8,12 @@ class Computer {
     this.numBombs = 1;
     this.bombs = [];
     this.game = game;
+    this.moves = {
+      'left': [-22, 0],
+      'up': [0, -22],
+      'right': [22, 0],
+      'down': [0, 22]
+    };
   }
 
   drawPlayer() {
@@ -44,6 +50,26 @@ class Computer {
     && brick.y > topBlastRadius && brick.y < bottomBlastRadius);
 
     collidedBricks.forEach( brick => {brick.status = 0;});
+  }
+
+  walkingCollisionDetection(dx, dy) {
+    const bricks = this.game.board.allVisibleBricks();
+    for (let i = 0; i < bricks.length; i++) {
+      if ((this.currentPosition.x + 22) + dx >= bricks[i].x &&
+      (this.currentPosition.x + 22) + dx <= bricks[i].x + 44 &&
+      (this.currentPosition.y + 22) + dy >= bricks[i].y &&
+      (this.currentPosition.y + 22) + dy <= bricks[i].y + 44) {
+        return {dx: 0, dy: 0};
+      }
+    }
+    if ((this.currentPosition.x + 22) + dx >= this.game.player.currentPosition.x
+        && (this.currentPosition.x + 22) + dx <= this.game.player.currentPosition.x + 22
+        && (this.currentPosition.y + 22) + dy >= this.game.player.currentPosition.y
+        && (this.currentPosition.y + 22) + dy <= this.game.player.currentPosition.y + 22) {
+      return { dx: 0, dy: 0};
+    }
+
+    return { dx, dy };
   }
 }
 
