@@ -75,21 +75,13 @@ class Game {
     let computerBombPosition;
     if (this.player.bombs) {
       playerBombPosition = this.player.bombs[0].position;
-      this.player.bombCollisionDetection(playerBombPosition);
+      this.player.bombAvatarCollisionDetection(playerBombPosition);
+      this.player.bombBrickCollisionDetection(playerBombPosition);
     }
     if (this.computer.bombs.length > 0) {
       computerBombPosition = this.computer.bombs[0].position;
     }
-    let leftBlastRadius = playerBombPosition.x - 50;
-    let rightBlastRadius = playerBombPosition.x + 50;
-    let topBlastRadius = playerBombPosition.y - 50;
-    let bottomBlastRadius = playerBombPosition.y + 50;
 
-    const collidedBricks = this.board.bricksStillStanding().filter(
-      brick => brick.x > leftBlastRadius && brick.x < rightBlastRadius
-    && brick.y > topBlastRadius && brick.y < bottomBlastRadius);
-
-    collidedBricks.forEach( brick => {brick.status = 0;});
   }
 
   displayEndMessage() {

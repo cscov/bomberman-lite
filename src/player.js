@@ -68,7 +68,7 @@ class Player {
     window.setTimeout(bomb.detonate.bind(bomb), 3000);
   }
 
-  bombCollisionDetection(bombPosition) {
+  bombAvatarCollisionDetection(bombPosition) {
     let playerPosition = this.currentPosition;
     let computerPosition = this.game.computer.currentPosition;
     let leftBlastRadius = bombPosition.x - 25;
@@ -84,7 +84,19 @@ class Player {
       && computerPosition.y > topBlastRadius && computerPosition.y < bottomBlastRadius) {
         this.game.computer.status = 0;
     }
+  }
 
+  bombBrickCollisionDetection(bombPosition) {
+    let leftBlastRadius = bombPosition.x - 50;
+    let rightBlastRadius = bombPosition.x + 50;
+    let topBlastRadius = bombPosition.y - 50;
+    let bottomBlastRadius = bombPosition.y + 50;
+
+    const collidedBricks = this.game.board.bricksStillStanding().filter(
+      brick => brick.x > leftBlastRadius && brick.x < rightBlastRadius
+    && brick.y > topBlastRadius && brick.y < bottomBlastRadius);
+
+    collidedBricks.forEach( brick => {brick.status = 0;});
   }
 }
 
