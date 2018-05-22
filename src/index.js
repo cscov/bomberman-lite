@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   play.addEventListener("click", function () {
     const lost = document.getElementById('lost');
     lost.classList.remove('show');
+    document.location.reload();
     game.start.bind(this);
     game.start();
   }, false);
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   play2.addEventListener("click", function () {
     const won = document.getElementById('won');
     won.classList.remove('show');
+    document.location.reload();
     game.start.bind(this);
     game.start();
   }, false);

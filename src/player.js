@@ -87,7 +87,7 @@ class Player {
 
     if (playerPosition.x > leftBlastRadius && playerPosition.x < rightBlastRadius
       && playerPosition.y > topBlastRadius && playerPosition.y < bottomBlastRadius) {
-        this.player.status = 0;
+        this.status = 0;
     }
     if (computerPosition.x > leftBlastRadius && computerPosition.x < rightBlastRadius
       && computerPosition.y > topBlastRadius && computerPosition.y < bottomBlastRadius) {
