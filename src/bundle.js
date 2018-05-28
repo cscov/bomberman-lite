@@ -67,59 +67,8 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Player = __webpack_require__(1);
 
-class Items {
-  constructor(ctx, player, type, color, position) {
-    this.ctx = ctx;
-    this.player = player;
-    this.type = type;
-    this.status = 1;
-    this.color = color;
-    this.position = {x: position.x, y: position.y};
-    this.radius = 50;
-
-  }
-
-  drawItem() {
-    if (this.type === 'bomb') {
-      this.ctx.beginPath();
-      this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
-      this.ctx.fillStyle = this.color;
-      this.ctx.fill();
-      this.ctx.closePath();
-    }
-  }
-
-  detonate() {
-    this.status = 3;
-  }
-
-
-  drawExplosion() {
-    this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, 50, 0, Math.PI*2);
-    this.ctx.fillStyle = "#233D4D";
-    this.ctx.fill();
-    this.ctx.closePath();
-
-    this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, 45, 0, Math.PI*2);
-    this.ctx.fillStyle = "#64a7d1";
-    this.ctx.fill();
-    this.ctx.closePath();
-  }
-}
-
-module.exports = Items;
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-const Item = __webpack_require__(0);
+const Item = __webpack_require__(3);
 
 class Player {
   constructor(ctx, canvas, img, game) {
@@ -267,7 +216,7 @@ module.exports = Player;
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports) {
 
 class Board {
@@ -396,7 +345,7 @@ module.exports = Board;
 
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 
@@ -484,15 +433,66 @@ module.exports = Computer;
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Player = __webpack_require__(0);
+
+class Items {
+  constructor(ctx, player, type, color, position) {
+    this.ctx = ctx;
+    this.player = player;
+    this.type = type;
+    this.status = 1;
+    this.color = color;
+    this.position = {x: position.x, y: position.y};
+    this.radius = 50;
+
+  }
+
+  drawItem() {
+    if (this.type === 'bomb') {
+      this.ctx.beginPath();
+      this.ctx.arc(this.position.x, this.position.y, 15, 0, Math.PI*2);
+      this.ctx.fillStyle = this.color;
+      this.ctx.fill();
+      this.ctx.closePath();
+    }
+  }
+
+  detonate() {
+    this.status = 3;
+  }
+
+
+  drawExplosion() {
+    this.ctx.beginPath();
+    this.ctx.arc(this.position.x, this.position.y, 50, 0, Math.PI*2);
+    this.ctx.fillStyle = "#233D4D";
+    this.ctx.fill();
+    this.ctx.closePath();
+
+    this.ctx.beginPath();
+    this.ctx.arc(this.position.x, this.position.y, 45, 0, Math.PI*2);
+    this.ctx.fillStyle = "#64a7d1";
+    this.ctx.fill();
+    this.ctx.closePath();
+  }
+}
+
+module.exports = Items;
+
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-const Board = __webpack_require__(2);
-const Computer = __webpack_require__(3);
-const Player = __webpack_require__(1);
+const Board = __webpack_require__(1);
+const Computer = __webpack_require__(2);
+const Player = __webpack_require__(0);
 const Game = __webpack_require__(5);
-const Item = __webpack_require__(0);
+const Item = __webpack_require__(3);
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = document.getElementById('my-canvas');
@@ -569,9 +569,9 @@ function toggleModal() {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Board = __webpack_require__(2);
-const Computer = __webpack_require__(3);
-const Player = __webpack_require__(1);
+const Board = __webpack_require__(1);
+const Computer = __webpack_require__(2);
+const Player = __webpack_require__(0);
 
 
 class Game {
@@ -603,7 +603,6 @@ class Game {
       this.player.bombs.forEach( bomb => {
         if (bomb.status === 1) {
           bomb.drawItem();
-          this.player.numBombs -= 1;
           window.setTimeout(bomb.detonate.bind(bomb), 3000);
           bomb.status = 2;
         } else if (bomb.status === 2) {
@@ -614,6 +613,7 @@ class Game {
           this.player.bombs.pop();
           this.player.setBomb = false;
           this.player.numBombs += 1;
+          console.log(`inside game.draw, player.numBombs is now: ${this.player.numBombs}`);
         }
       });
     }

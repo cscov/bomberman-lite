@@ -32,7 +32,6 @@ class Game {
       this.player.bombs.forEach( bomb => {
         if (bomb.status === 1) {
           bomb.drawItem();
-          this.player.numBombs -= 1;
           window.setTimeout(bomb.detonate.bind(bomb), 3000);
           bomb.status = 2;
         } else if (bomb.status === 2) {
@@ -43,6 +42,7 @@ class Game {
           this.player.bombs.pop();
           this.player.setBomb = false;
           this.player.numBombs += 1;
+          console.log(`inside game.draw, player.numBombs is now: ${this.player.numBombs}`);
         }
       });
     }
