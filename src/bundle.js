@@ -395,20 +395,20 @@ class Computer {
     let moveKey = this.moveKeys[moveIndex];
 
     if (moveKey === 'left') {
-      dx = -33;
+      dx = -22;
       dy = 0;
       newMove = this.walkingCollisionDetection(dx, dy);
     } else if (moveKey === 'up') {
       dx = 0;
-      dy = -33;
+      dy = -22;
       newMove = this.walkingCollisionDetection(dx, dy);
     } else if (moveKey === 'right') {
-      dx = 33;
+      dx = 22;
       dy = 0;
       newMove = this.walkingCollisionDetection(dx, dy);
     } else if (moveKey === 'down') {
       dx = 0;
-      dy = 33;
+      dy = 22;
       newMove = this.walkingCollisionDetection(dx, dy);
     }
     dx = newMove.dx;
@@ -613,7 +613,6 @@ class Game {
           this.player.bombs.pop();
           this.player.setBomb = false;
           this.player.numBombs += 1;
-          console.log(`inside game.draw, player.numBombs is now: ${this.player.numBombs}`);
         }
       });
     }

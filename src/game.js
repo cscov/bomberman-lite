@@ -42,7 +42,6 @@ class Game {
           this.player.bombs.pop();
           this.player.setBomb = false;
           this.player.numBombs += 1;
-          console.log(`inside game.draw, player.numBombs is now: ${this.player.numBombs}`);
         }
       });
     }
