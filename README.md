@@ -18,13 +18,11 @@ In Bomberman Lite, users will be able to:
 
 
 ### Gameplay
-When the game starts, the board is set with obstacles and items randomly placed. The game is over when one player is killed by another. When the game resets, the placement of obstacles also resets.
+When the game starts, the board is set with obstacles placed. The game is over when one player is killed. When the game resets, the placement of obstacles also resets.
 
 ### Computer AI
 The computer player will be able to:
 - [x] move about in a random pattern
-- [x] detect bombs and move away from them when possible
-- [x] place bombs
 
 ### Instructions
 In addition to gameplay, users will also be able to:
@@ -47,7 +45,7 @@ This project was implemented with the following technologies:
 In addition to the webpack entry file(`index.js`), there are be five scripts involved in this project:
 - `player.js` that will hold the logic for how the player moves and places bombs
 - `computer.js` that will hold the logic for how the computer moves and places bombs
-- `bomb.js` that will hold the logic for the power-up items and bombs
+- `items.js` that will hold the logic for the bombs and  power-up items 
 - `board.js` that will hold the logic for the board rendering and game-over scenario
 - `game.js` that holds the logic for starting and ending the game, collision detection, and rendering each object on the screen
 
