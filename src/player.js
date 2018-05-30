@@ -63,21 +63,21 @@ class Player {
 
   movePlayer(dx, dy) {
 
-    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + dx >= this.canvas.width
-    || this.currentPosition.x + this.width >= this.canvas.width) {
+    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + dx + 22 >= this.canvas.width) {
       dx = 0;
+      // || this.currentPosition.x + this.width + dx >= this.canvas.width
     }
-    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + dy >= this.canvas.height
-    || this.currentPosition.y + this.height >= this.canvas.height) {
+    else if (this.currentPosition.y + dy < 65 || this.currentPosition.y + dy + 22 >= this.canvas.height) {
       dy = 0;
+      // || this.currentPosition.y + dy >= this.canvas.height
     }
-    if (this.currentPosition.x + dx < 0 || this.currentPosition.x + 22 + dx >= this.canvas.width) {
-      dx = 0;
-    }
-    if (this.currentPosition.y + dy < 65 || this.currentPosition.y + 22 + dy >= this.canvas.height) {
-
-      dy = 0;
-    }
+    // elsif (this.currentPosition.x + dx < 0 || this.currentPosition.x + 22 + dx >= this.canvas.width) {
+    //   dx = 0;
+    // }
+    // elsif (this.currentPosition.y + dy < 65 || this.currentPosition.y + 22 + dy >= this.canvas.height) {
+    //
+    //   dy = 0;
+    // }
     this.currentPosition.x += dx;
     this.currentPosition.y += dy;
     return this.drawPlayer();
